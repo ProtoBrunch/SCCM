@@ -1,10 +1,13 @@
 package Client;
 
+import com.github.sarxos.webcam.Webcam;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 
 /**
  * Created by meiersila on 30.03.2017.
@@ -64,6 +67,16 @@ public class WebcamChatGui implements ActionListener {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(300, 300));
+
+        WebCamStreams wcs = new WebCamStreams("localhost");
+        Webcam webcam = Webcam.getDefault();
+        wcs.startWebcamStream(webcam);
+        try {
+            panel_1_1 = wcs.getExternalWebcam();
+            panel_1_2 = wcs.getLocalWebcam();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         panel_2_2.add(messageTextArea);
         panel_2_2.add(messageSendButton);
