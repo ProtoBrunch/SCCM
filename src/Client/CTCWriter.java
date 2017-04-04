@@ -23,10 +23,11 @@ public class CTCWriter extends Thread{
      * @param client
      * @throws IOException
      */
-    public CTCWriter(Socket client) throws IOException {
+    public CTCWriter(Socket client, String input) throws IOException {
         this.client = client;
         outToClient = new PrintWriter(client.getOutputStream(),true);
         scanner = new Scanner(System.in);
+        this.string = input;
     }
 
     /**
@@ -36,9 +37,6 @@ public class CTCWriter extends Thread{
      * Sobald die Verbindung zusammenbricht, stribt der Thread.
      */
     public void run(){
-        while(client.isConnected()){
-            string = scanner.nextLine();
             outToClient.println(string);
-        }
     }
 }

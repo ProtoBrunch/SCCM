@@ -5,12 +5,16 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  * Created by meiersila on 30.03.2017.
  * WebcamChatGui welches sich beim Verbinden mit einem anderen Client öffnet.
  */
 public class WebcamChatGui implements ActionListener {
+    private Socket client;
+
     private JFrame frame;
     private JPanel panel_outer;
     private JPanel panel_1;
@@ -30,7 +34,9 @@ public class WebcamChatGui implements ActionListener {
     /**
      * Konstruktor. Alle benötigten Komponenten werden initialisiert. Für den webcamPanel wird der Parameter verwendet
      */
-    public WebcamChatGui(){
+    public WebcamChatGui(Socket client){
+        this.client = client;
+
         frame = new JFrame("Skipe - WebCam");
         panel_outer = new JPanel(new GridLayout(1,2));
         panel_1 = new JPanel();
@@ -85,6 +91,11 @@ public class WebcamChatGui implements ActionListener {
         if (e.getSource() == messageSendButton){
             JLabel messageLabel = new JLabel(messageTextArea.getText());
             messagePanel.add(messageLabel);
+            try {
+                new CTCWriter(client , messageTextArea.getText()).start();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             messageTextArea.setText("");
             SwingUtilities.updateComponentTreeUI(scrollPane);
             scrollToBottom();
@@ -97,20 +108,11 @@ public class WebcamChatGui implements ActionListener {
         messagePanel.scrollRectToVisible(rect);
     }
 
-    /**
-     * Ändert das Icon vom JLabel webcamPanel.
-     * @param newImage ImageIcon welches vom Bytearray berechnet wurde.
-     * @param location Wovon das Bild kommt "server" für externes Bild, "client" für das eigene
-     */
-   /* public void changeWebcamImageIcon(ImageIcon newImage, String location){
-        switch(location){
-            case "server":
-                this.panel_1_2.setIcon(newImage); //Webcam Image from other client
-                break;
-            case "client":
-                this.webcamPanel_0_0_1.setIcon(newImage); //Local Webcam Image
-                break;
-        }
+    void addNewMessage(String message){
+        JLabel newMessageLabel = new JLabel(message);
+        messagePanel.add(newMessageLabel);
+        SwingUtilities.updateComponentTreeUI(scrollPane);
+        scrollToBottom();
 
-    }*/
+    }
 }

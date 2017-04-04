@@ -39,7 +39,6 @@ public class ClientServer extends Thread{
             client = clientServer.accept();
 
             new CTCListener(client).start();
-            new CTCWriter(client).start();
 
         } catch (IOException e) {
             e.printStackTrace();
