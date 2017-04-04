@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
+ *
  * Created by berberatr on 04.04.2017.
  */
 public class ClientToClientConnection extends Thread{
