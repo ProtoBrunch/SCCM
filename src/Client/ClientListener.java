@@ -19,25 +19,26 @@ public class ClientListener extends Thread{
     }
 
     public void run(){
-        while(server.isConnected()){
-            try{
+        try{
+            while(server.isConnected()) {
                 String input = inFromServer.readLine();
-                new ClientController(input,server);
+                new ClientController(input, server);
+            }
 
 
-            } catch(SocketException se){
-                try {
-                    inFromServer.close();
-                    System.out.println("Closed inputStream");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Closed Thread");
-                this.interrupt();
+        } catch(SocketException se){
+            try {
+                inFromServer.close();
+                System.out.println("Closed inputStream");
             } catch (IOException e) {
                 e.printStackTrace();
-                this.interrupt();
             }
+            System.out.println("Closed Thread");
+            this.interrupt();
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.interrupt();
         }
+
     }
 }

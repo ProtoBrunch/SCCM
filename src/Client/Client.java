@@ -8,7 +8,7 @@ import java.net.Socket;
  */
 public class Client {
     public static void main(String[] args) throws IOException {
-        String host = "192.168.22.201";
+        String host = "172.16.2.156";
         int port = 50000;
         Socket server = null;
 

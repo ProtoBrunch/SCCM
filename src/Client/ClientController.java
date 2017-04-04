@@ -10,10 +10,28 @@ import java.net.Socket;
  */
 public class ClientController {
     public ClientController(String input, Socket server) throws IOException {
-        switch(input){
+        String[] stringArray = input.split(" ");
+        switch(stringArray[0].toUpperCase()){
+            case "RCI":
+                System.out.println("Server wishes to know Information for the new Chatroom.");
+                new ClientWriter(server).sendChatRoomInformation();
+                break;
+
+
+            case "ONS":
+                System.out.println("Client opens new Server.");
+                new ClientServer(stringArray[1]).start();
+                break;
+
+            case "NRM": //These messages expect no answer to return.
+                System.out.println(input.substring(4));
+                server.close();
+                break;
+
             default:
                 System.out.println(input);
                 new ClientWriter(server).defaultMessage();
+                break;
         }
     }
 }

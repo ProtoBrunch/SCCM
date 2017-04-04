@@ -27,6 +27,17 @@ public class ServerWriter {
     }
 
     public void sayHello(){
-        outToClient.println("Hallo");
+        outToClient.println("Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
+    }
+
+    public void showOpenChatRooms() {
+    }
+
+    public void requestChatRoomInformation() {
+        outToClient.println("RCI");
+    }
+
+    public void addedClientToRoomList() {
+        outToClient.println("NRM Added you to the list of Chatrooms.");
     }
 }

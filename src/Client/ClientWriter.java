@@ -25,4 +25,14 @@ public class ClientWriter {
         string = scanner.nextLine();
         outToServer.println(string);
     }
+
+    public void sendChatRoomInformation() throws IOException {
+        System.out.println("What's the name of the room?");
+        String roomName = scanner.nextLine();
+        System.out.println("What's the port of the new Room?");
+        String port = scanner.nextLine();
+        new ClientController("ONS "+port, server);
+        outToServer.println("SCI "+roomName+" "+port);
+        System.out.println("Infos gesendet.");
+    }
 }
