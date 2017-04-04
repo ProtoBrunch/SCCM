@@ -6,21 +6,35 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 /**
- * Created by berberatr on 04.04.2017.
+ * Client-To-Client Listener
+ * Instanziert einen Bufferedreader auf dem Inputstream um Nachrichten des anderen Clients empfangen zu können
+ *
+ * Created by Robin Berberat 04.04.2017.
  */
 public class CTCListener extends Thread{
     Socket client;
     BufferedReader inFromClient;
 
+    /**
+     * Konstruktor
+     *
+     * @param client
+     * @throws IOException
+     */
     public CTCListener(Socket client) throws IOException {
         this.client = client;
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
     }
 
+    /**
+     * Solange die Verbindung besteht, wartet der Thread auf ein einkommendes Signal vom anderen Client.
+     * <p>
+     * Sobald die Verbindung zusammenbricht, stribt der Thread.
+     */
     public void run(){
         String input;
         try {
-            while(true){
+            while(client.isConnected()){
                 input = inFromClient.readLine();
                 System.out.println(input);
             }
