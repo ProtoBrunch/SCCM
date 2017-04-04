@@ -43,8 +43,6 @@ public class ClientToClientConnection extends Thread{
         try {
             new CTCListener(client).start();
             System.out.println("listener start");
-            new CTCWriter(client).start();
-            System.out.println("writer start");
         } catch (IOException e) {
             e.printStackTrace();
         }

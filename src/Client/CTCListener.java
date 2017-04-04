@@ -14,6 +14,7 @@ import java.net.Socket;
 public class CTCListener extends Thread{
     Socket client;
     BufferedReader inFromClient;
+    WebcamChatGui gui;
 
     /**
      * Konstruktor
@@ -24,6 +25,8 @@ public class CTCListener extends Thread{
     public CTCListener(Socket client) throws IOException {
         this.client = client;
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        gui = new WebcamChatGui(client);
+        gui.setComponents();
     }
 
     /**
@@ -36,7 +39,7 @@ public class CTCListener extends Thread{
         try {
             while(client.isConnected()){
                 input = inFromClient.readLine();
-                System.out.println(input);
+                gui.addNewMessage(input);
             }
         }catch (IOException e) {
             e.printStackTrace();
