@@ -1,6 +1,8 @@
 package Client;
 
 import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.ds.ipcam.IpCamDeviceRegistry;
+import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,18 +10,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by meiersila on 30.03.2017.
  * WebcamChatGui welches sich beim Verbinden mit einem anderen Client öffnet.
  */
 public class WebcamChatGui implements ActionListener {
+    private WebCamStreams wcs;
+    private Webcam webcam;
     private JFrame frame;
     private JPanel panel_outer;
     private JPanel panel_1;
     private JPanel panel_2;
 
     private JPanel panel_1_1;
+    private JButton buttonExternCam;
+    private JButton buttonLocalCam;
     private JPanel panel_1_2;
     private JPanel panel_2_2;
 
@@ -33,13 +41,20 @@ public class WebcamChatGui implements ActionListener {
     /**
      * Konstruktor. Alle benötigten Komponenten werden initialisiert. Für den webcamPanel wird der Parameter verwendet
      */
-    public WebcamChatGui(){
+    public WebcamChatGui(Webcam webcam, String ipadresse){
+        wcs = new WebCamStreams(ipadresse, webcam);
+
+        this.webcam = webcam;
         frame = new JFrame("Skipe - WebCam");
         panel_outer = new JPanel(new GridLayout(1,2));
         panel_1 = new JPanel();
         panel_2 = new JPanel(new BorderLayout());
 
         panel_1_1 = new JPanel();
+        buttonExternCam = new JButton("Activate");
+        buttonExternCam.addActionListener(this);
+        buttonLocalCam = new JButton("Activate");
+        buttonLocalCam.addActionListener(this);
         panel_1_2 = new JPanel();
         panel_2_2 = new JPanel();
 
@@ -62,21 +77,20 @@ public class WebcamChatGui implements ActionListener {
 
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.PAGE_AXIS));
         panel_1.setBorder(new EmptyBorder(10, 10, 10, 10));
-        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.PAGE_AXIS));
+        panel_1.setLayout(new GridLayout(2,1));
 
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(300, 300));
 
-        WebCamStreams wcs = new WebCamStreams("localhost");
-        Webcam webcam = Webcam.getDefault();
-        wcs.startWebcamStream(webcam);
-        try {
-            panel_1_1 = wcs.getExternalWebcam();
-            panel_1_2 = wcs.getLocalWebcam();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        panel_1_1.add(buttonExternCam);
+        panel_1_2.add(buttonLocalCam);
+
+        //new ThreadWebcam(webcam).start();
+        //new WebCamStreamThread(50005, webcam).start();
+
+        panel_1.add(panel_1_1);
+        panel_1.add(panel_1_2);
 
         panel_2_2.add(messageTextArea);
         panel_2_2.add(messageSendButton);
@@ -101,6 +115,25 @@ public class WebcamChatGui implements ActionListener {
             messageTextArea.setText("");
             SwingUtilities.updateComponentTreeUI(scrollPane);
             scrollToBottom();
+        }else if(e.getSource() == buttonExternCam){
+            System.out.println("extern button clicked");
+            try {
+                System.out.println(Webcam.getWebcams().size());
+                panel_1_1.remove(buttonExternCam);
+                panel_1_1.add(wcs.getExternalWebcam());
+                SwingUtilities.updateComponentTreeUI(frame);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            }
+        }else if(e.getSource() == buttonLocalCam){
+            System.out.println("local button clicked");
+            try {
+                panel_1_2.remove(buttonLocalCam);
+                panel_1_2.add(wcs.getLocalWebcam());
+                SwingUtilities.updateComponentTreeUI(frame);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 

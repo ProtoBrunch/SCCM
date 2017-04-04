@@ -1,5 +1,7 @@
 package Client;
 
+import com.github.sarxos.webcam.Webcam;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -125,7 +127,7 @@ public class StartGui implements ActionListener{
             infoLabel.setText("Verbindung wird aufgebaut...");
 
             if(e.getSource() == webcamChatButton){
-                WebcamChatGui wcg = new WebcamChatGui();
+                WebcamChatGui wcg = new WebcamChatGui(Webcam.getDefault(),"172.16.2.156");
                 wcg.setComponents();
 
                 disposeFrame();
