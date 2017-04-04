@@ -9,6 +9,7 @@ import java.net.Socket;
  */
 public class ClientServer extends Thread{
     int port;
+    Socket client = null;
 
     public ClientServer(String s) {
         this.port = Integer.parseInt(s);
@@ -17,7 +18,10 @@ public class ClientServer extends Thread{
     public void run(){
         try(ServerSocket clientServer = new ServerSocket(port)) {
             System.out.println("Server gestartet und wartet auf Client.");
-            Socket client = clientServer.accept();
+            client = clientServer.accept();
+
+            new CTCListener(client).start();
+            new CTCWriter(client).start();
 
         } catch (IOException e) {
             e.printStackTrace();

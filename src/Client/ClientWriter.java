@@ -35,4 +35,9 @@ public class ClientWriter {
         outToServer.println("SCI "+roomName+" "+port);
         System.out.println("Infos gesendet.");
     }
+
+    public void sendSelection() {
+        String selection = scanner.nextLine();
+        outToServer.println("SS "+selection);
+    }
 }

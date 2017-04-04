@@ -18,6 +18,7 @@ public class ServerController {
                 System.out.println("Client wishes to create new Chatroom.");
                 new ServerWriter(client).requestChatRoomInformation();
                 break;
+
             case "SCI":
                 System.out.println("Filling the gained Information into Hashmaps.");
                 chatRoomPorts.put(stringArray[1], Integer.parseInt(stringArray[2]));
@@ -29,6 +30,17 @@ public class ServerController {
             case "SMC":
                 System.out.println("Client requests all open Chatrooms.");
                 new ServerWriter(client).showOpenChatRooms();
+                new ServerWriter(client).askForSelection();
+                break;
+
+            case "SS":
+                System.out.println("Sending Client Room Information");
+                int port = chatRoomPorts.get(stringArray[1]);
+                chatRoomPorts.remove(stringArray[1]);
+                String adress = chatRoomAdresses.get(stringArray[1]);
+                chatRoomAdresses.remove(stringArray[1]);
+                new ServerWriter(client).sendRoomInformation(adress,port);
+                //new ServerWriter(client).disconnectingClient();
                 break;
 
             default:

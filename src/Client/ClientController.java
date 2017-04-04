@@ -3,6 +3,7 @@ package Client;
 import Server.ServerWriter;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 /**
@@ -23,8 +24,21 @@ public class ClientController {
                 new ClientServer(stringArray[1]).start();
                 break;
 
+            case "AFS":
+                System.out.println(input.substring(4));
+                new ClientWriter(server).sendSelection();
+                break;
+
+            case "CTS":
+                System.out.println("Received Information");
+                new ClientToClientConnection(stringArray[1], Integer.parseInt(stringArray[2])).start();
+                break;
+
             case "NRM": //These messages expect no answer to return.
                 System.out.println(input.substring(4));
+                break;
+
+            case "CC":
                 server.close();
                 break;
 
