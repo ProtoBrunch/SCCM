@@ -5,7 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Created by User on 04.04.2017.
+ * Erstellt einen Serversocket, welcher kontinuierlich offen steht für Clients, die sich verbinden wollen.
+ * <p>
+ * Bei erfolgreicher Verbindung mit einem Client, wird dessen Serversocket and einen ServerListener-Thread übergeben.
+ *
+ * Created by Robin Berberat on 04.04.2017.
  */
 public class Server {
 

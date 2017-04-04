@@ -7,36 +7,37 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
+ * Client-To-Server Listener
  * Empfangspunkt für alle eingehenden Anweisungen des Servers.
- * Wird eine Anweisung empfangen, wird diese an einen ClientController weitergegeben.
+ * Wird eine Anweisung empfangen, wird diese an einen CTSController weitergegeben.
  * <p/>
  * Erweitert die Thread-Klasse.
  * <p/>
  * Sollte die Verbindung zum Server geschlossen werden, stirbt der Thread.
  *
  * @see Thread
- * @see ClientController
+ * @see CTSController
  *
  * Created by Robin Berberat on 04.04.2017.
  */
-public class ClientListener extends Thread{
+public class CTSListener extends Thread{
     Socket server;
     BufferedReader inFromServer;
 
     /**
-     * Konstruktor für den ClientListener.
+     * Konstruktor für den CTSListener.
      * Deklariert den BufferedReader für die Server-Inputs.
      *
      * @param server Socket-Verbindung zum Server.
      * @throws IOException
      */
-    public ClientListener(Socket server) throws IOException {
+    public CTSListener(Socket server) throws IOException {
         this.server = server;
         inFromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
     }
 
     /**
-     * Hört auf dem InputStream() bis eine Nachricht vom Server kommt, und startet einen ClientController sollten Nachrichten hineinkommen.
+     * Hört auf dem InputStream() bis eine Nachricht vom Server kommt, und startet einen CTSController sollten Nachrichten hineinkommen.
      *
      * Stirbt sollte der Socket-geschlossen werden.
      */
@@ -44,7 +45,7 @@ public class ClientListener extends Thread{
         try{
             while(server.isConnected()) {
                 String input = inFromServer.readLine();
-                new ClientController(input, server);
+                new CTSController(input, server);
             }
 
 

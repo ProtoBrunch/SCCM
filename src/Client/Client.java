@@ -5,10 +5,10 @@ import java.net.Socket;
 
 /**
  * Startpunkt des Verbindungsaufbaues für Clients.
- * Erstellt eine Verbindung zum Server und startet auf der Verbindung einen ClientListener-Thread.
+ * Erstellt eine Verbindung zum Server und startet auf der Verbindung einen CTSListener-Thread.
  * Danach stirbt der main()-Thread.
  *
- * @see ClientListener
+ * @see CTSListener
  *
  * Created by Robin Berberat on 04.04.2017.
  */
@@ -20,7 +20,7 @@ public class Client {
 
         try {
             server = new Socket(host, port);
-            new ClientListener(server).start();
+            new CTSListener(server).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
