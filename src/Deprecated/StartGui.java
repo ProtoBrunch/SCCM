@@ -1,4 +1,4 @@
-package Client;
+package Deprecated;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
 /**
- * Wird in Main geöffnet. Erstellt neue Chats oder Webcamübertragungen.
+ * Wird in Deprecated.Main geöffnet. Erstellt neue Chats oder Webcamübertragungen.
  * Created by meiersila on 30.03.2017.
  */
 public class StartGui implements ActionListener{

@@ -1,4 +1,4 @@
-import Client.StartGui;
+package Deprecated;
 
 /**
  * Created by meiersila on 04.04.2017.
