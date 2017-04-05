@@ -32,6 +32,7 @@ public class CTCWebcamWriter extends Thread{
             ByteBuffer byteBuffer = webcam.getImageBytes();
             byte[] data = new byte[byteBuffer.capacity()];
             ((ByteBuffer) byteBuffer.duplicate().clear()).get(data);
+            System.out.println(data);
 
             try {
                 outToClient.write(data);
