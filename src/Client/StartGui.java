@@ -100,7 +100,7 @@ public class StartGui implements ActionListener{
 
 
         frame.add(panel_0);
-
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -125,13 +125,13 @@ public class StartGui implements ActionListener{
             infoLabel.setText("Verbindung wird aufgebaut...");
 
             if(e.getSource() == webcamChatButton){
-                WebcamChatGui wcg = new WebcamChatGui();
-                wcg.setComponents();
+                /*WebcamChatGui wcg = new WebcamChatGui();
+                wcg.setComponents();*/
 
                 disposeFrame();
 
             }else if(e.getSource() == chatButton){
-                ChatGui cg = new ChatGui();
+                ChatGui cg = new ChatGui(username);
                 cg.setComponents();
                 disposeFrame();
             }
