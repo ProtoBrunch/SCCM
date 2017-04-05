@@ -29,7 +29,6 @@ public class CTCWebcamListener extends Thread{
                     byte[] imageByteArray = new byte[length];
                     inFromClient.readFully(imageByteArray, 0, length);
                     BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(imageByteArray));
-                    System.out.println(Arrays.toString(imageByteArray));
                     gui.addNewImage(imageback, "extern");
                 }
             }

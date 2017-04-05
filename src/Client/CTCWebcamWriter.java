@@ -35,15 +35,12 @@ public class CTCWebcamWriter extends Thread{
     public void run(){
         while (true){
             try {
-                System.out.println(webcam.getImage().getHeight());
-                System.out.println(webcam.getImage().getWidth());
                 webcamImage = webcam.getImage();
                 baos = new ByteArrayOutputStream();
                 ImageIO.write(webcamImage,"png", baos);
                 baos.flush();
                 byte[] data = baos.toByteArray();
                 baos.close();
-                System.out.print(data.length);
                 outToClient.writeInt(data.length);
                 outToClient.write(data);
                 BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(data));

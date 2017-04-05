@@ -45,9 +45,7 @@ public class ClientToClientConnection extends Thread{
         // Establish Connections for Text- and Webcam-Data Transfer
         try {
             client = new Socket(host, port);
-            System.out.println("verbunden zum Textzeug");
             clientWebcam = new Socket(host,5000);
-            System.out.println("verbunden zum Webcamzeug");
 
             gui = new WebcamChatGui(client);
             gui.setComponents();
@@ -59,7 +57,6 @@ public class ClientToClientConnection extends Thread{
         // Add Listeners and Writers
         try {
             new CTCListener(client, gui).start();
-            System.out.println("listener start");
             new CTCWebcamWriter(clientWebcam, webcam, gui).start();
             new CTCWebcamListener(clientWebcam, gui).start();
         } catch (IOException e) {

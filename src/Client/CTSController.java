@@ -28,11 +28,9 @@ public class CTSController {
         String[] stringArray = input.split(" ");
         switch(stringArray[0].toUpperCase()){
             case "RCI":
-                System.out.println("Server wishes to know Information for the new Chatroom.");
                 new CTSWriter(server).sendChatRoomInformation();
                 break;
             case "ONS":
-                System.out.println("Client opens new Server.");
                 new ClientServer(stringArray[1]).start();
                 break;
             case "AFS":
@@ -40,7 +38,6 @@ public class CTSController {
                 new CTSWriter(server).sendSelection();
                 break;
             case "CTS":
-                System.out.println("Received Information");
                 new ClientToClientConnection(stringArray[1], Integer.parseInt(stringArray[2])).start();
                 break;
             case "NRM": //These messages expect no answer to return.

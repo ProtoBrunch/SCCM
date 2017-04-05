@@ -20,9 +20,7 @@ public class Server {
             System.out.println("Server gestartet");
             while(true){
                 Socket client = server.accept();
-                System.out.println("Client verbunden");
                 new ServerListener(client).start();
-                System.out.println("Listener gestartet");
             }
         } catch (IOException e) {
             e.printStackTrace();
