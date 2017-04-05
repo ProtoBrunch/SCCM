@@ -15,6 +15,7 @@ public class ClientToClientConnection extends Thread{
     String host;
     int port;
     Socket client = null;
+    Socket clientWebcam = null;
 
     /**
      * Konstruktor
@@ -35,7 +36,10 @@ public class ClientToClientConnection extends Thread{
     public void run() {
         try {
             client = new Socket(host, port);
-            System.out.println("verbunden");
+            System.out.println("verbunden zum Textzeug");
+            clientWebcam = new Socket(host,5000);
+            System.out.println("verbunden zum Webcamzeug");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
