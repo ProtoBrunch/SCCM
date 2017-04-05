@@ -1,4 +1,6 @@
-package Client;
+package Client.ClientToServer;
+
+import Client.ClientToClient.ClientToClientConnection;
 
 import java.io.IOException;
 import java.net.Socket;

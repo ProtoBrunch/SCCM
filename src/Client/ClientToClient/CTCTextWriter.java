@@ -1,4 +1,6 @@
-package Client;
+package Client.ClientToClient;
+
+import Client.Client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,8 +13,7 @@ import java.util.Scanner;
  *
  * Created by Robin Berberat 04.04.2017.
  */
-public class CTCWriter extends Thread{
-    Socket client;
+public class CTCTextWriter extends Thread{
     private PrintWriter outToClient;
     private String string;
 
@@ -22,8 +23,7 @@ public class CTCWriter extends Thread{
      * @param client
      * @throws IOException
      */
-    public CTCWriter(Socket client, String input) throws IOException {
-        this.client = client;
+    public CTCTextWriter(Socket client, String input) throws IOException {
         outToClient = new PrintWriter(client.getOutputStream(),true);
         this.string = input;
     }

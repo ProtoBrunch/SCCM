@@ -1,4 +1,4 @@
-package Client;
+package Client.ClientToServer;
 
 import java.io.IOException;
 import java.io.PrintWriter;

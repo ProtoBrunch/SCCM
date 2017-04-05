@@ -1,5 +1,7 @@
 package Client;
 
+import Client.ClientToClient.CTCTextWriter;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -140,7 +142,7 @@ public class WebcamChatGui implements ActionListener, KeyListener {
     private void reactToListener(){
         addNewMessage(messageTextArea.getText());
         try {
-            new CTCWriter(client , messageTextArea.getText()).start();
+            new CTCTextWriter(client , messageTextArea.getText()).start();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -151,7 +153,7 @@ public class WebcamChatGui implements ActionListener, KeyListener {
      * Neue Nachrichten werden im messagePanel angezeigt
      * @param message Nachricht, welche angezeigt werden soll.
      */
-    void addNewMessage(String message){
+    public void addNewMessage(String message){
         if(!message.equals("")){
             JLabel newMessageLabel = new JLabel(message);
             messagePanel.add(newMessageLabel);
@@ -165,7 +167,7 @@ public class WebcamChatGui implements ActionListener, KeyListener {
 
      * @param externOrLocal bei welchem Label das Bild angezeigt werden soll.
      */
-    void addNewImage(BufferedImage bufferedImage, String externOrLocal){
+    public void addNewImage(BufferedImage bufferedImage, String externOrLocal){
         switch(externOrLocal){
             case "extern":
                 label_1_1.setIcon(new ImageIcon(bufferedImage));

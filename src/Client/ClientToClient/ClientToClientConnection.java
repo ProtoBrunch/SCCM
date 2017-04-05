@@ -1,5 +1,6 @@
-package Client;
+package Client.ClientToClient;
 
+import Client.WebcamChatGui;
 import com.github.sarxos.webcam.Webcam;
 
 import java.awt.*;
@@ -9,15 +10,15 @@ import java.net.Socket;
 
 /**
  * Veranwtortlich für den Verbindungsaufbau zu einem Client.
- * Versucht Verbindung zu einem Client aufzubauen, und, wenn erfolgreich, startet einen CTCListener-Thread und einen CTCWriter-Thread.
+ * Versucht Verbindung zu einem Client aufzubauen, und, wenn erfolgreich, startet einen CTCTextListener-Thread und einen CTCTextWriter-Thread.
  *
- * @see CTCListener
- * @see CTCWriter
+ * @see CTCTextListener
+ * @see CTCTextWriter
  * Created by Robin Berberat on 04.04.2017.
  */
 public class ClientToClientConnection extends Thread {
     private String host;
-    Socket client = null;
+    private Socket client = null;
     private Socket clientWebcam = null;
     private WebcamChatGui gui;
     private Webcam webcam = Webcam.getDefault();
@@ -72,7 +73,7 @@ public class ClientToClientConnection extends Thread {
     }
 
     private void openListenersAndWriters() throws IOException {
-        new CTCListener(client, gui).start();
+        new CTCTextListener(client, gui).start();
         new CTCWebcamWriter(clientWebcam, webcam, gui).start();
         new CTCWebcamListener(clientWebcam, gui).start();
     }

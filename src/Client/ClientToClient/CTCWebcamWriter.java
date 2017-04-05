@@ -1,4 +1,4 @@
-package Client;
+package Client.ClientToClient;
 
 import com.github.sarxos.webcam.Webcam;
 
@@ -6,8 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
+
 
 /**
  * Created by berberatr on 05.04.2017.
@@ -16,9 +15,9 @@ public class CTCWebcamWriter extends Thread{
     Socket client;
     private Webcam webcam;
     private  DataOutputStream outToClient;
-    private  WebcamChatGui gui;
+    private Client.WebcamChatGui gui;
 
-    public CTCWebcamWriter(Socket client, Webcam webcam, WebcamChatGui gui) throws IOException {
+    public CTCWebcamWriter(Socket client, Webcam webcam, Client.WebcamChatGui gui) throws IOException {
         this.client = client;
         this.webcam = webcam;
         this.gui = gui;

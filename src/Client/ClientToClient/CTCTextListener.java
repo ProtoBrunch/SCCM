@@ -1,4 +1,6 @@
-package Client;
+package Client.ClientToClient;
+
+import Client.WebcamChatGui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,10 +13,10 @@ import java.net.Socket;
  *
  * Created by Robin Berberat 04.04.2017.
  */
-public class CTCListener extends Thread{
-    Socket client;
+public class CTCTextListener extends Thread{
+    private Socket client;
     private  BufferedReader inFromClient;
-    private  WebcamChatGui gui;
+    private WebcamChatGui gui;
 
     /**
      * Konstruktor
@@ -22,7 +24,7 @@ public class CTCListener extends Thread{
      * @param client
      * @throws IOException
      */
-    public CTCListener(Socket client, WebcamChatGui gui) throws IOException {
+    public CTCTextListener(Socket client, Client.WebcamChatGui gui) throws IOException {
         this.client = client;
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
         this.gui = gui;

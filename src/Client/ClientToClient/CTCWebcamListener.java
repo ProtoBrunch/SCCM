@@ -1,4 +1,6 @@
-package Client;
+package Client.ClientToClient;
+
+import Client.WebcamChatGui;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,12 +11,12 @@ import java.net.Socket;
  * Created by berberatr on 05.04.2017.
  */
 public class CTCWebcamListener extends Thread{
-    Socket client;
-    private  WebcamChatGui gui;
-    private  DataInputStream inFromClient;
+    private Socket client;
+    private Client.WebcamChatGui gui;
+    private DataInputStream inFromClient;
 
 
-    CTCWebcamListener(Socket client, WebcamChatGui gui) throws IOException{
+    CTCWebcamListener(Socket client, Client.WebcamChatGui gui) throws IOException{
         this.client = client;
         this.gui = gui;
         inFromClient = new DataInputStream(new BufferedInputStream(client.getInputStream()));
