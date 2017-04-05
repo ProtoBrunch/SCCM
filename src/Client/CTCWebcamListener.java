@@ -22,17 +22,21 @@ public class CTCWebcamListener extends Thread{
 
     public void run(){
         try{
-            while(client.isConnected()){
-                int length = inFromClient.readInt();
-                if(length >0 ) {
-                    byte[] imageByteArray = new byte[length];
-                    inFromClient.readFully(imageByteArray, 0, length);
-                    BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(imageByteArray));
-                    gui.addNewImage(imageback, "extern");
-                }
-            }
+            readFromInputStream();
         }catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+    private void readFromInputStream() throws IOException {
+        while(client.isConnected()){
+            int length = inFromClient.readInt();
+            if(length > 0) {
+                byte[] imageByteArray = new byte[length];
+                inFromClient.readFully(imageByteArray, 0, length);
+                BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(imageByteArray));
+                gui.addNewImage(imageback, "extern");
+            }
         }
     }
 }

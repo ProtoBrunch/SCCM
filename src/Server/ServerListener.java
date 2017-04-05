@@ -13,7 +13,6 @@ import java.util.HashMap;
 public class ServerListener extends Thread{
     private Socket client;
     private BufferedReader inFromClient;
-    static HashMap<String, Integer> chatRoomPorts = new HashMap<>();
     static HashMap<String, String> chatRoomAdresses = new HashMap<>();
 
     public ServerListener(Socket client) throws IOException {

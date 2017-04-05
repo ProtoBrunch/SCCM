@@ -34,10 +34,9 @@ public class CTCListener extends Thread{
      * Sobald die Verbindung zusammenbricht, stribt der Thread.
      */
     public void run(){
-        String input;
         try {
             while(client.isConnected()){
-                input = inFromClient.readLine();
+                String input = inFromClient.readLine();
                 gui.addNewMessage(input);
             }
         }catch (IOException e) {

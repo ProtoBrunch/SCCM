@@ -10,7 +10,6 @@ import java.net.Socket;
  *
  * @see CTSListener
  * @see CTSWriter
- * @see ClientServer
  * @see ClientToClientConnection
  *
  * Created by Robin Berberat on 04.04.2017.
@@ -31,14 +30,14 @@ public class CTSController {
                 new CTSWriter(server).sendChatRoomInformation();
                 break;
             case "ONS":
-                new ClientServer(stringArray[1]).start();
+                new ClientToClientConnection("localhost",true).start();
                 break;
             case "AFS":
                 System.out.println(input.substring(4));
                 new CTSWriter(server).sendSelection();
                 break;
             case "CTS":
-                new ClientToClientConnection(stringArray[1], Integer.parseInt(stringArray[2])).start();
+                new ClientToClientConnection(stringArray[1],false).start();
                 break;
             case "NRM": //These messages expect no answer to return.
                 System.out.println(input.substring(4));

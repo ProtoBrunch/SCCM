@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static Server.ServerListener.chatRoomPorts;
+import static Server.ServerListener.chatRoomAdresses;
 
 /**
  * Created by User on 04.04.2017.
@@ -27,12 +27,12 @@ public class ServerWriter {
     }
 
     void sayHello(){
-        outToClient.println("NRM Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
+        outToClient.println("Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
     }
 
     void showOpenChatRooms() {
         outToClient.println("NRM These Rooms are currently open:");
-        for(String name : chatRoomPorts.keySet()){
+        for(String name : chatRoomAdresses.keySet()){
             outToClient.println("NRM "+name);
         }
     }
@@ -49,8 +49,8 @@ public class ServerWriter {
         outToClient.println("AFS Which one of these rooms do you wish to join?");
     }
 
-    void sendRoomInformation(String adress, int port) {
-        outToClient.println("CTS "+adress+" "+port);
+    void sendRoomInformation(String adress) {
+        outToClient.println("CTS "+adress);
     }
 
     public void disconnectingClient() {

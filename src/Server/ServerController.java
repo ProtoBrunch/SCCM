@@ -4,7 +4,6 @@ package Server;
 import java.net.Socket;
 
 import static Server.ServerListener.chatRoomAdresses;
-import static Server.ServerListener.chatRoomPorts;
 
 /**
  * Zuständig für die Verarbeitung der vom ServerListener übergebenen Kommandos.
@@ -30,7 +29,6 @@ public class ServerController {
                 new ServerWriter(client).requestChatRoomInformation();
                 break;
             case "SCI":
-                chatRoomPorts.put(stringArray[1], Integer.parseInt(stringArray[2]));
                 String adressOfRoom = client.getInetAddress().toString().substring(1);
                 chatRoomAdresses.put(stringArray[1], adressOfRoom);
                 new ServerWriter(client).addedClientToRoomList();
@@ -40,11 +38,9 @@ public class ServerController {
                 new ServerWriter(client).askForSelection();
                 break;
             case "SS":
-                int port = chatRoomPorts.get(stringArray[1]);
-                chatRoomPorts.remove(stringArray[1]);
                 String adress = chatRoomAdresses.get(stringArray[1]);
                 chatRoomAdresses.remove(stringArray[1]);
-                new ServerWriter(client).sendRoomInformation(adress,port);
+                new ServerWriter(client).sendRoomInformation(adress);
                 break;
             default:
                 System.out.println(input);

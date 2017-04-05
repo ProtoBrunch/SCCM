@@ -14,12 +14,11 @@ import java.net.Socket;
  */
 public class Client {
     public static void main(String[] args) throws IOException {
-        String host = "172.16.2.156";
-        int port = 50000;
-        Socket server;
+        initiateClient("localhoat", 50000);
+    }
 
-        try {
-            server = new Socket(host, port);
+    private static void initiateClient(String host, int port){
+        try ( Socket server = new Socket(host, port);){
             new CTSListener(server).start();
         } catch (IOException e) {
             e.printStackTrace();

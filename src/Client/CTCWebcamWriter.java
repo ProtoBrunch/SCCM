@@ -31,29 +31,38 @@ public class CTCWebcamWriter extends Thread{
     public void run(){
         while (client.isConnected()){
             while(webcam.isOpen()) {
-                try {
-                    BufferedImage webcamImage = webcam.getImage();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ImageIO.write(webcamImage, "png", baos);
-                    baos.flush();
-                    byte[] data = baos.toByteArray();
-                    baos.close();
-                    outToClient.writeInt(data.length);
-                    outToClient.write(data);
-                    BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(data));
-                    gui.addNewImage(imageback, "local");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                processWebcamimage();
             }
         }
     }
 
-    public void toggleWebcam(){
-        if(webcam.isOpen()){
-            webcam.close();
-        }else{
-            webcam.open();
+    private void processWebcamimage(){
+        try {
+            BufferedImage webcamImage = webcam.getImage();
+            byte[] imageArray = turnBufferedImagetoByteArray(webcamImage);
+            sendImageToClient(imageArray);
+            sendImageToGui(imageArray);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    private byte[] turnBufferedImagetoByteArray(BufferedImage buffImage) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(buffImage, "png", baos);
+        baos.flush();
+        byte[] imageArray = baos.toByteArray();
+        baos.close();
+        return imageArray;
+    }
+
+    private void sendImageToClient(byte[] imageArray) throws IOException {
+        outToClient.writeInt(imageArray.length);
+        outToClient.write(imageArray);
+    }
+
+    private void sendImageToGui(byte[] imageArray) throws IOException {
+        BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(imageArray));
+        gui.addNewImage(imageback, "local");
     }
 }

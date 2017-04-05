@@ -47,11 +47,8 @@ public class CTSWriter {
     void sendChatRoomInformation() throws IOException {
         System.out.println("What's the name of the room?");
         String roomName = scanner.nextLine();
-        System.out.println("What's the port of the new Room?");
-        String port = scanner.nextLine();
-        new CTSController("ONS "+port, server);
-        outToServer.println("SCI "+roomName+" "+port);
-        System.out.println("Infos gesendet.");
+        new CTSController("ONS ", server);
+        outToServer.println("SCI "+roomName);
     }
 
     /**

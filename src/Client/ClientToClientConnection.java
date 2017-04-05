@@ -15,28 +15,24 @@ import java.net.Socket;
  * @see CTCWriter
  * Created by Robin Berberat on 04.04.2017.
  */
-public class ClientToClientConnection extends Thread{
-    private  String host;
-    private  int port;
+public class ClientToClientConnection extends Thread {
+    private String host;
     Socket client = null;
-    private  Socket clientWebcam = null;
-    private  WebcamChatGui gui;
-    private  Webcam webcam = Webcam.getDefault();
-    private String type;
+    private Socket clientWebcam = null;
+    private WebcamChatGui gui;
+    private Webcam webcam = Webcam.getDefault();
+    private boolean isItClientServer;
 
     /**
      * Konstruktor
      *
      * @param adress
-     * @param port
      */
-    public ClientToClientConnection(String adress, int port) {
+    public ClientToClientConnection(String adress, boolean isItClientServer) {
         this.host = adress;
-        this.port = port;
-        webcam.setViewSize(new Dimension(640,480));
+        this.isItClientServer = isItClientServer;
+        webcam.setViewSize(new Dimension(640, 480));
     }
-
-    public ClientToClientConnection()
 
     /**
      * Verbindet den Client mit einem anderen Client über einen Socket,
@@ -44,11 +40,33 @@ public class ClientToClientConnection extends Thread{
      * startet die nötigen CTC-Threads zur Kommunikation zwischen Clients, und stirbt daraufhin.
      */
     public void run() {
-
-
+        try {
+            if (isItClientServer) {
+                startServer();
+            } else {
+                connectToClient();
+            }
+            openGui();
+            openListenersAndWriters();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void openGui(){
+    private void startServer() throws IOException {
+        ServerSocket clientServer = new ServerSocket(6000);
+        ServerSocket clientWebcamServer = new ServerSocket(5000);
+
+        client = clientServer.accept();
+        clientWebcam = clientWebcamServer.accept();
+    }
+
+    private void connectToClient() throws IOException {
+        client = new Socket(host, 6000);
+        clientWebcam = new Socket(host, 5000);
+    }
+
+    private void openGui() {
         gui = new WebcamChatGui(client);
         gui.setComponents();
     }
@@ -58,17 +76,5 @@ public class ClientToClientConnection extends Thread{
         new CTCWebcamWriter(clientWebcam, webcam, gui).start();
         new CTCWebcamListener(clientWebcam, gui).start();
     }
-
-    private void startServer() throws IOException {
-        ServerSocket clientServer = new ServerSocket(port);
-        ServerSocket clientWebcamServer = new ServerSocket(5000)
-
-        client = clientServer.accept();
-        Socket webcamClient = clientWebcamServer.accept();
-    }
-
-    private void connectToClient() throws IOException {
-        client = new Socket(host, port); // Establish Connections for Text-
-        clientWebcam = new Socket(host,5000); // and Webcam-Data Transfer
-    }
 }
+
