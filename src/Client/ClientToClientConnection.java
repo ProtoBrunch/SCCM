@@ -58,8 +58,8 @@ public class ClientToClientConnection extends Thread{
         try {
             new CTCListener(client, gui).start();
             System.out.println("listener start");
-            new CTCWebcamListener(client, gui).start();
             new CTCWebcamWriter(client, webcam).start();
+            new CTCWebcamListener(client, gui).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
