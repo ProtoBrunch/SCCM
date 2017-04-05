@@ -1,5 +1,7 @@
 package Client;
 
+import com.github.sarxos.webcam.Webcam;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -16,6 +18,8 @@ public class ClientToClientConnection extends Thread{
     int port;
     Socket client = null;
     Socket clientWebcam = null;
+    WebcamChatGui gui;
+    Webcam webcam = Webcam.getDefault();
 
     /**
      * Konstruktor
@@ -26,6 +30,7 @@ public class ClientToClientConnection extends Thread{
     public ClientToClientConnection(String adress, int port) {
         this.host = adress;
         this.port = port;
+
     }
 
     /**
@@ -34,19 +39,27 @@ public class ClientToClientConnection extends Thread{
      * startet die nötigen CTC-Threads zur Kommunikation zwischen Clients, und stirbt daraufhin.
      */
     public void run() {
+
+        // Establish Connections for Text- and Webcam-Data Transfer
         try {
             client = new Socket(host, port);
             System.out.println("verbunden zum Textzeug");
             clientWebcam = new Socket(host,5000);
             System.out.println("verbunden zum Webcamzeug");
 
+            gui = new WebcamChatGui(client);
+            gui.setComponents();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Add Listeners and Writers
         try {
-            new CTCListener(client).start();
+            new CTCListener(client, gui).start();
             System.out.println("listener start");
+            new CTCWebcamListener(client, gui).start();
+            new CTCWebcamWriter(client, webcam).start();
         } catch (IOException e) {
             e.printStackTrace();
         }

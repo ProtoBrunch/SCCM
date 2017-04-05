@@ -1,5 +1,7 @@
 package Client;
 
+import com.github.sarxos.webcam.Webcam;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,6 +23,7 @@ public class ClientServer extends Thread{
     int port;
     Socket client = null;
     Socket clientWebcam = null;
+    Webcam webcam = Webcam.getDefault();
 
     /**
      * Konstruktor für ClientServer
@@ -35,6 +38,8 @@ public class ClientServer extends Thread{
      * Nach Verbindungsaufbau werden ein Listener und ein Writer gestartet, und der Thread stirbt.
      */
     public void run(){
+
+        // Establish Connections for Text- and Webcam-Data Transfer
         try(ServerSocket clientServer = new ServerSocket(port)) {
             System.out.println("Server gestartet und wartet auf Client.");
             client = clientServer.accept();
@@ -42,10 +47,13 @@ public class ClientServer extends Thread{
             ServerSocket clientWebcamServer = new ServerSocket(5000);
             clientWebcamServer.accept();
 
+            WebcamChatGui gui = new WebcamChatGui(client);
+            gui.setComponents();
 
 
 
-            new CTCListener(client).start();
+            // Add Listeners and Writers
+            new CTCListener(client, gui).start();
 
         } catch (IOException e) {
             e.printStackTrace();
