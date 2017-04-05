@@ -13,8 +13,8 @@ import java.net.Socket;
  */
 public class CTCListener extends Thread{
     Socket client;
-    BufferedReader inFromClient;
-    WebcamChatGui gui;
+    private  BufferedReader inFromClient;
+    private  WebcamChatGui gui;
 
     /**
      * Konstruktor

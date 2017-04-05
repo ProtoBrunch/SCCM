@@ -14,11 +14,9 @@ import java.util.Arrays;
  */
 public class CTCWebcamWriter extends Thread{
     Socket client;
-    Webcam webcam;
-    DataOutputStream outToClient;
-    WebcamChatGui gui;
-    BufferedImage webcamImage;
-    ByteArrayOutputStream baos;
+    private Webcam webcam;
+    private  DataOutputStream outToClient;
+    private  WebcamChatGui gui;
 
 
 
@@ -35,8 +33,8 @@ public class CTCWebcamWriter extends Thread{
     public void run(){
         while (true){
             try {
-                webcamImage = webcam.getImage();
-                baos = new ByteArrayOutputStream();
+                BufferedImage webcamImage = webcam.getImage();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write(webcamImage,"png", baos);
                 baos.flush();
                 byte[] data = baos.toByteArray();

@@ -13,10 +13,9 @@ import java.util.Scanner;
  * Created by Robin Berberat on 04.04.2017.
  */
 public class CTSWriter {
-    Socket server;
-    PrintWriter outToServer;
-    Scanner scanner;
-    String string;
+    private  Socket server;
+    private  PrintWriter outToServer;
+    private  Scanner scanner;
 
 
     /**
@@ -34,8 +33,8 @@ public class CTSWriter {
     /**
      * Bittet den Benutzer um eine Eingabe, welche dann an den Server geschickt wird.
      */
-    public void defaultMessage(){
-        string = scanner.nextLine();
+    void defaultMessage(){
+        String string = scanner.nextLine();
         outToServer.println(string);
     }
 
@@ -45,7 +44,7 @@ public class CTSWriter {
      *
      * @throws IOException
      */
-    public void sendChatRoomInformation() throws IOException {
+    void sendChatRoomInformation() throws IOException {
         System.out.println("What's the name of the room?");
         String roomName = scanner.nextLine();
         System.out.println("What's the port of the new Room?");
@@ -58,7 +57,7 @@ public class CTSWriter {
     /**
      * Erlaubt es dem Benutzer, dem Server mitzuteilen, welchem Chatraum er beitreten möchte.
      */
-    public void sendSelection() {
+    void sendSelection() {
         String selection = scanner.nextLine();
         outToServer.println("SS "+selection);
     }

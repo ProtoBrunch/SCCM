@@ -11,11 +11,11 @@ import java.util.Arrays;
  */
 public class CTCWebcamListener extends Thread{
     Socket client;
-    WebcamChatGui gui;
-    DataInputStream inFromClient;
+    private  WebcamChatGui gui;
+    private  DataInputStream inFromClient;
 
 
-    public CTCWebcamListener(Socket client, WebcamChatGui gui) throws IOException{
+    CTCWebcamListener(Socket client, WebcamChatGui gui) throws IOException{
         this.client = client;
         this.gui = gui;
         inFromClient = new DataInputStream(new BufferedInputStream(client.getInputStream()));

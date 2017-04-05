@@ -21,10 +21,9 @@ import java.net.Socket;
  * Created by Robin Berberat on 04.04.2017.
  */
 public class ClientServer extends Thread{
-    int port;
+    private int port;
     Socket client = null;
-    Socket webcamClient = null;
-    Webcam webcam = Webcam.getDefault();
+    private Webcam webcam = Webcam.getDefault();
 
     /**
      * Konstruktor für ClientServer
@@ -46,7 +45,7 @@ public class ClientServer extends Thread{
             client = clientServer.accept();
 
             ServerSocket clientWebcamServer = new ServerSocket(5000);
-            webcamClient = clientWebcamServer.accept();
+            Socket webcamClient = clientWebcamServer.accept();
 
             WebcamChatGui gui = new WebcamChatGui(client);
             gui.setComponents();

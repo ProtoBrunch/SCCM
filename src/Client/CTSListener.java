@@ -21,8 +21,8 @@ import java.net.SocketException;
  * Created by Robin Berberat on 04.04.2017.
  */
 public class CTSListener extends Thread{
-    Socket server;
-    BufferedReader inFromServer;
+    private  Socket server;
+    private  BufferedReader inFromServer;
 
     /**
      * Konstruktor für den CTSListener.

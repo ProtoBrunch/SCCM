@@ -11,8 +11,8 @@ import java.util.HashMap;
  * Created by User on 04.04.2017.
  */
 public class ServerListener extends Thread{
-    Socket client;
-    BufferedReader inFromClient;
+    private Socket client;
+    private BufferedReader inFromClient;
     static HashMap<String, Integer> chatRoomPorts = new HashMap<>();
     static HashMap<String, String> chatRoomAdresses = new HashMap<>();
 

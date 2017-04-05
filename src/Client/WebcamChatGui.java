@@ -3,7 +3,6 @@ package Client;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -152,9 +151,8 @@ public class WebcamChatGui implements ActionListener, KeyListener {
      * Neue Nachrichten werden im messagePanel angezeigt
      * @param message Nachricht, welche angezeigt werden soll.
      */
-    public void addNewMessage(String message){
-        if(message.equals(""));
-        else {
+    void addNewMessage(String message){
+        if(!message.equals("")){
             JLabel newMessageLabel = new JLabel(message);
             messagePanel.add(newMessageLabel);
             SwingUtilities.updateComponentTreeUI(scrollPane);
@@ -166,7 +164,7 @@ public class WebcamChatGui implements ActionListener, KeyListener {
 
      * @param externOrLocal bei welchem Label das Bild angezeigt werden soll.
      */
-    public void addNewImage(BufferedImage bufferedImage, String externOrLocal){
+    void addNewImage(BufferedImage bufferedImage, String externOrLocal){
         switch(externOrLocal){
             case "extern":
                 label_1_1.setIcon(new ImageIcon(bufferedImage));

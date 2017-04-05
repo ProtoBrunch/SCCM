@@ -15,12 +15,12 @@ import java.net.Socket;
  * Created by Robin Berberat on 04.04.2017.
  */
 public class ClientToClientConnection extends Thread{
-    String host;
-    int port;
+    private  String host;
+    private  int port;
     Socket client = null;
-    Socket clientWebcam = null;
-    WebcamChatGui gui;
-    Webcam webcam = Webcam.getDefault();
+    private  Socket clientWebcam = null;
+    private  WebcamChatGui gui;
+    private  Webcam webcam = Webcam.getDefault();
 
     /**
      * Konstruktor

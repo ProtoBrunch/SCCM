@@ -13,9 +13,8 @@ import java.util.Scanner;
  */
 public class CTCWriter extends Thread{
     Socket client;
-    PrintWriter outToClient;
-    Scanner scanner;
-    String string;
+    private PrintWriter outToClient;
+    private String string;
 
     /**
      * Konstruktor
@@ -26,7 +25,6 @@ public class CTCWriter extends Thread{
     public CTCWriter(Socket client, String input) throws IOException {
         this.client = client;
         outToClient = new PrintWriter(client.getOutputStream(),true);
-        scanner = new Scanner(System.in);
         this.string = input;
     }
 
