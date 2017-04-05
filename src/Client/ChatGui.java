@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
  * Created by meiersila on 30.03.2017.
  */
 public class ChatGui implements ActionListener, KeyListener {
-    String username;
+    private String username;
     private JFrame frame;
     private JPanel panel_outer;
     private JPanel panel_1;
