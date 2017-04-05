@@ -38,7 +38,6 @@ public class ClientServer extends Thread{
      * Nach Verbindungsaufbau werden ein Listener und ein Writer gestartet, und der Thread stirbt.
      */
     public void run(){
-
         // Establish Connections for Text- and Webcam-Data Transfer
         try(ServerSocket clientServer = new ServerSocket(port)) {
             System.out.println("Server gestartet und wartet auf Client.");
@@ -52,8 +51,6 @@ public class ClientServer extends Thread{
 
             webcam.setViewSize(new Dimension(640,480));
 
-
-
             // Add Listeners and Writers
             new CTCListener(client, gui).start();
             new CTCWebcamListener(webcamClient, gui).start();
@@ -63,5 +60,4 @@ public class ClientServer extends Thread{
             e.printStackTrace();
         }
     }
-
 }

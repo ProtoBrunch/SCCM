@@ -27,7 +27,7 @@ public class ServerWriter {
     }
 
     void sayHello(){
-        outToClient.println("Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
+        outToClient.println("NRM Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
     }
 
     void showOpenChatRooms() {

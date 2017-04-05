@@ -32,7 +32,6 @@ public class ClientToClientConnection extends Thread{
         this.host = adress;
         this.port = port;
         webcam.setViewSize(new Dimension(640,480));
-
     }
 
     /**
@@ -41,19 +40,15 @@ public class ClientToClientConnection extends Thread{
      * startet die nötigen CTC-Threads zur Kommunikation zwischen Clients, und stirbt daraufhin.
      */
     public void run() {
-
-        // Establish Connections for Text- and Webcam-Data Transfer
         try {
-            client = new Socket(host, port);
-            clientWebcam = new Socket(host,5000);
+            client = new Socket(host, port); // Establish Connections for Text-
+            clientWebcam = new Socket(host,5000); // and Webcam-Data Transfer
 
             gui = new WebcamChatGui(client);
             gui.setComponents();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         // Add Listeners and Writers
         try {
             new CTCListener(client, gui).start();

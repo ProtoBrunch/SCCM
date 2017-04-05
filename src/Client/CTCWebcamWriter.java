@@ -18,8 +18,6 @@ public class CTCWebcamWriter extends Thread{
     private  DataOutputStream outToClient;
     private  WebcamChatGui gui;
 
-
-
     public CTCWebcamWriter(Socket client, Webcam webcam, WebcamChatGui gui) throws IOException {
         this.client = client;
         this.webcam = webcam;
@@ -31,7 +29,7 @@ public class CTCWebcamWriter extends Thread{
     }
 
     public void run(){
-        while (true){
+        while (client.isConnected()){
             try {
                 BufferedImage webcamImage = webcam.getImage();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();

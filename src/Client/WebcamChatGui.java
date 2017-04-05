@@ -159,6 +159,7 @@ public class WebcamChatGui implements ActionListener, KeyListener {
             scrollToBottom();
         }
     }
+
     /**
      * JLabel SetIcon wird verwendet, um das Webcambild anzuzeigen.
 

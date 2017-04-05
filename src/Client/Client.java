@@ -16,7 +16,7 @@ public class Client {
     public static void main(String[] args) throws IOException {
         String host = "172.16.2.156";
         int port = 50000;
-        Socket server = null;
+        Socket server;
 
         try {
             server = new Socket(host, port);

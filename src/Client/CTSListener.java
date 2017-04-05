@@ -47,8 +47,6 @@ public class CTSListener extends Thread{
                 String input = inFromServer.readLine();
                 new CTSController(input, server);
             }
-
-
         } catch(SocketException se){
             try {
                 inFromServer.close();
@@ -62,6 +60,5 @@ public class CTSListener extends Thread{
             e.printStackTrace();
             this.interrupt();
         }
-
     }
 }

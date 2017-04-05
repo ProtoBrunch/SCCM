@@ -23,12 +23,7 @@ public class ServerListener extends Thread{
 
     public void run(){
         try {
-            new ServerWriter(client).sayHello();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
+            new ServerController("SH",client);
             while(client.isConnected()) {
                 String input = inFromClient.readLine();
                 new ServerController(input, client);
