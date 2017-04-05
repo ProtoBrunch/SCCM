@@ -22,11 +22,10 @@ public class CTCListener extends Thread{
      * @param client
      * @throws IOException
      */
-    public CTCListener(Socket client) throws IOException {
+    public CTCListener(Socket client, WebcamChatGui gui) throws IOException {
         this.client = client;
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        gui = new WebcamChatGui(client);
-        gui.setComponents();
+        this.gui = gui;
     }
 
     /**

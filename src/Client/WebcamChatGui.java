@@ -163,23 +163,19 @@ public class WebcamChatGui implements ActionListener, KeyListener {
     }
     /**
      * JLabel SetIcon wird verwendet, um das Webcambild anzuzeigen.
-     * @param data Bytearray, welcher Bild enthält
-     * @param width Breite des Bild
-     * @param height Höhe des Bild
+
      * @param externOrLocal bei welchem Label das Bild angezeigt werden soll.
      */
-    public void addNewImage(byte[] data, int width, int height, String externOrLocal){
-        BufferedImage webCamImage = createRGBImage(data, width, height);
-
+    public void addNewImage(BufferedImage bufferedImage, String externOrLocal){
         switch(externOrLocal){
             case "extern":
-                label_1_1.setIcon(new ImageIcon(webCamImage));
+                label_1_1.setIcon(new ImageIcon(bufferedImage));
                 break;
             case "local":
-                label_1_2.setIcon(new ImageIcon(webCamImage));
+                label_1_2.setIcon(new ImageIcon(bufferedImage));
                 break;
             default:
-                label_1_2.setIcon(new ImageIcon(webCamImage));
+                label_1_2.setIcon(new ImageIcon(bufferedImage));
                 break;
         }
     }
@@ -192,8 +188,9 @@ public class WebcamChatGui implements ActionListener, KeyListener {
      * @return gibt ein BufferedImage zurück.
      */
     private static BufferedImage createRGBImage(byte[] bytes, int width, int height) {
+        System.out.println("inside createRGBImage");
         DataBufferByte buffer = new DataBufferByte(bytes, bytes.length);
         ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]{8, 8, 8}, false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-        return new BufferedImage(cm, Raster.createInterleavedRaster(buffer, width, height, width * 3, 3, new int[]{0, 1, 2}, null), false, null);
+        return new BufferedImage(cm, Raster.createInterleavedRaster(buffer, width, height, width*3, 3, new int[]{0, 1, 2}, null), false, null);
     }
 }
