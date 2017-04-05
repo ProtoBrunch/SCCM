@@ -20,6 +20,7 @@ import java.net.Socket;
 public class ClientServer extends Thread{
     int port;
     Socket client = null;
+    Socket clientWebcam = null;
 
     /**
      * Konstruktor für ClientServer
@@ -37,6 +38,12 @@ public class ClientServer extends Thread{
         try(ServerSocket clientServer = new ServerSocket(port)) {
             System.out.println("Server gestartet und wartet auf Client.");
             client = clientServer.accept();
+
+            ServerSocket clientWebcamServer = new ServerSocket(5000);
+            clientWebcamServer.accept();
+
+
+
 
             new CTCListener(client).start();
 
