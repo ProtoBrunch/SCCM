@@ -45,7 +45,7 @@ public class ClientServer extends Thread{
             client = clientServer.accept();
 
             ServerSocket clientWebcamServer = new ServerSocket(5000);
-            clientWebcamServer.accept();
+            Socket webcamClient = clientWebcamServer.accept();
 
             WebcamChatGui gui = new WebcamChatGui(client);
             gui.setComponents();
@@ -54,6 +54,8 @@ public class ClientServer extends Thread{
 
             // Add Listeners and Writers
             new CTCListener(client, gui).start();
+            new CTCWebcamListener(webcamClient, gui).start();
+            new CTCWebcamWriter(webcamClient,webcam,gui);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package Client;
 
 import com.github.sarxos.webcam.Webcam;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -30,6 +31,7 @@ public class ClientToClientConnection extends Thread{
     public ClientToClientConnection(String adress, int port) {
         this.host = adress;
         this.port = port;
+        webcam.setViewSize(new Dimension(640,480));
 
     }
 
@@ -58,7 +60,7 @@ public class ClientToClientConnection extends Thread{
         try {
             new CTCListener(client, gui).start();
             System.out.println("listener start");
-            new CTCWebcamWriter(clientWebcam, webcam).start();
+            new CTCWebcamWriter(clientWebcam, webcam, gui).start();
             new CTCWebcamListener(clientWebcam, gui).start();
         } catch (IOException e) {
             e.printStackTrace();

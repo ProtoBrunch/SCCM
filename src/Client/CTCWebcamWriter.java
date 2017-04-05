@@ -2,11 +2,12 @@ package Client;
 
 import com.github.sarxos.webcam.Webcam;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Created by berberatr on 05.04.2017.
@@ -15,12 +16,16 @@ public class CTCWebcamWriter extends Thread{
     Socket client;
     Webcam webcam;
     DataOutputStream outToClient;
+    WebcamChatGui gui;
+    BufferedImage webcamImage;
+    ByteArrayOutputStream baos;
 
 
 
-    public CTCWebcamWriter(Socket client, Webcam webcam) throws IOException {
+    public CTCWebcamWriter(Socket client, Webcam webcam, WebcamChatGui gui) throws IOException {
         this.client = client;
         this.webcam = webcam;
+        this.gui = gui;
         if(!webcam.isOpen()){
             webcam.open();
         }
@@ -28,15 +33,21 @@ public class CTCWebcamWriter extends Thread{
     }
 
     public void run(){
-        while (client.isConnected()){
-            ByteBuffer byteBuffer = webcam.getImageBytes();
-            byte[] data = new byte[byteBuffer.capacity()];
-            ((ByteBuffer) byteBuffer.duplicate().clear()).get(data);
-            System.out.println(data);
-
+        while (true){
             try {
+                System.out.println(webcam.getImage().getHeight());
+                System.out.println(webcam.getImage().getWidth());
+                webcamImage = webcam.getImage();
+                baos = new ByteArrayOutputStream();
+                ImageIO.write(webcamImage,"png", baos);
+                baos.flush();
+                byte[] data = baos.toByteArray();
+                baos.close();
+                System.out.print(data.length);
+                outToClient.writeInt(data.length);
                 outToClient.write(data);
-                outToClient.flush();
+                BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(data));
+                gui.addNewImage(imageback,"local");
             } catch (IOException e) {
                 e.printStackTrace();
             }

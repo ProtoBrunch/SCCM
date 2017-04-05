@@ -1,7 +1,10 @@
 package Client;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 /**
  * Created by berberatr on 05.04.2017.
@@ -21,10 +24,14 @@ public class CTCWebcamListener extends Thread{
     public void run(){
         try{
             while(client.isConnected()){
-                byte[] imageByteArray = new byte[76032];
-                inFromClient.readFully(imageByteArray, 0, 76032);
-                System.out.println(imageByteArray);
-                gui.addNewImage(imageByteArray, 640, 480, "extern");
+                int length = inFromClient.readInt();
+                if(length >0 ) {
+                    byte[] imageByteArray = new byte[length];
+                    inFromClient.readFully(imageByteArray, 0, length);
+                    BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(imageByteArray));
+                    System.out.println(Arrays.toString(imageByteArray));
+                    gui.addNewImage(imageback, "extern");
+                }
             }
         }catch (IOException e){
             e.printStackTrace();
