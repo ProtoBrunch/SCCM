@@ -30,20 +30,30 @@ public class CTCWebcamWriter extends Thread{
 
     public void run(){
         while (client.isConnected()){
-            try {
-                BufferedImage webcamImage = webcam.getImage();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(webcamImage,"png", baos);
-                baos.flush();
-                byte[] data = baos.toByteArray();
-                baos.close();
-                outToClient.writeInt(data.length);
-                outToClient.write(data);
-                BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(data));
-                gui.addNewImage(imageback,"local");
-            } catch (IOException e) {
-                e.printStackTrace();
+            while(webcam.isOpen()) {
+                try {
+                    BufferedImage webcamImage = webcam.getImage();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageIO.write(webcamImage, "png", baos);
+                    baos.flush();
+                    byte[] data = baos.toByteArray();
+                    baos.close();
+                    outToClient.writeInt(data.length);
+                    outToClient.write(data);
+                    BufferedImage imageback = ImageIO.read(new ByteArrayInputStream(data));
+                    gui.addNewImage(imageback, "local");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }
+    }
+
+    public void toggleWebcam(){
+        if(webcam.isOpen()){
+            webcam.close();
+        }else{
+            webcam.open();
         }
     }
 }

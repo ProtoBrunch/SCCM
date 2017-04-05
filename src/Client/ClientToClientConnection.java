@@ -4,6 +4,7 @@ import com.github.sarxos.webcam.Webcam;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -21,6 +22,7 @@ public class ClientToClientConnection extends Thread{
     private  Socket clientWebcam = null;
     private  WebcamChatGui gui;
     private  Webcam webcam = Webcam.getDefault();
+    private String type;
 
     /**
      * Konstruktor
@@ -34,28 +36,39 @@ public class ClientToClientConnection extends Thread{
         webcam.setViewSize(new Dimension(640,480));
     }
 
+    public ClientToClientConnection()
+
     /**
      * Verbindet den Client mit einem anderen Client über einen Socket,
      * <p/>
      * startet die nötigen CTC-Threads zur Kommunikation zwischen Clients, und stirbt daraufhin.
      */
     public void run() {
-        try {
-            client = new Socket(host, port); // Establish Connections for Text-
-            clientWebcam = new Socket(host,5000); // and Webcam-Data Transfer
 
-            gui = new WebcamChatGui(client);
-            gui.setComponents();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Add Listeners and Writers
-        try {
-            new CTCListener(client, gui).start();
-            new CTCWebcamWriter(clientWebcam, webcam, gui).start();
-            new CTCWebcamListener(clientWebcam, gui).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    }
+
+    private void openGui(){
+        gui = new WebcamChatGui(client);
+        gui.setComponents();
+    }
+
+    private void openListenersAndWriters() throws IOException {
+        new CTCListener(client, gui).start();
+        new CTCWebcamWriter(clientWebcam, webcam, gui).start();
+        new CTCWebcamListener(clientWebcam, gui).start();
+    }
+
+    private void startServer() throws IOException {
+        ServerSocket clientServer = new ServerSocket(port);
+        ServerSocket clientWebcamServer = new ServerSocket(5000)
+
+        client = clientServer.accept();
+        Socket webcamClient = clientWebcamServer.accept();
+    }
+
+    private void connectToClient() throws IOException {
+        client = new Socket(host, port); // Establish Connections for Text-
+        clientWebcam = new Socket(host,5000); // and Webcam-Data Transfer
     }
 }
