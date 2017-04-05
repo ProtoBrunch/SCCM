@@ -22,7 +22,7 @@ import java.net.Socket;
 public class ClientServer extends Thread{
     int port;
     Socket client = null;
-    Socket clientWebcam = null;
+    Socket webcamClient = null;
     Webcam webcam = Webcam.getDefault();
 
     /**
@@ -45,7 +45,7 @@ public class ClientServer extends Thread{
             client = clientServer.accept();
 
             ServerSocket clientWebcamServer = new ServerSocket(5000);
-            Socket webcamClient = clientWebcamServer.accept();
+            webcamClient = clientWebcamServer.accept();
 
             WebcamChatGui gui = new WebcamChatGui(client);
             gui.setComponents();
@@ -55,7 +55,7 @@ public class ClientServer extends Thread{
             // Add Listeners and Writers
             new CTCListener(client, gui).start();
             new CTCWebcamListener(webcamClient, gui).start();
-            new CTCWebcamWriter(webcamClient,webcam,gui);
+            new CTCWebcamWriter(webcamClient,webcam,gui).start();
 
         } catch (IOException e) {
             e.printStackTrace();
