@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
  * Chatgui um nur zu chatten.
  * Created by meiersila on 30.03.2017.
  */
-public class ChatGui implements ActionListener, KeyListener {
+public class ChatGui implements ActionListener , KeyListener{
     private String username;
     private JFrame frame;
     private JPanel panel_outer;

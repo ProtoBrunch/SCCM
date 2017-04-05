@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.*;
 import java.io.IOException;
 import java.net.Socket;
@@ -14,7 +16,7 @@ import java.net.Socket;
  * Created by meiersila on 30.03.2017.
  * WebcamChatGui welches sich beim Verbinden mit einem anderen Client öffnet.
  */
-public class WebcamChatGui implements ActionListener {
+public class WebcamChatGui implements ActionListener, KeyListener {
     private Socket client;
 
     private JFrame frame;
@@ -55,6 +57,7 @@ public class WebcamChatGui implements ActionListener {
         messageSendButton = new JButton("Senden");
         messageSendButton.addActionListener(this);
         messageTextArea = new JTextArea(2,10);
+        messageTextArea.addKeyListener(this);
 
         scrollPane = new JScrollPane(messagePanel);
     }
@@ -96,16 +99,33 @@ public class WebcamChatGui implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == messageSendButton){
-            JLabel messageLabel = new JLabel(messageTextArea.getText());
-            messagePanel.add(messageLabel);
-            try {
-                new CTCWriter(client , messageTextArea.getText()).start();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            reactToListener();
+        }
+    }
+
+    /**
+     * Keylistener, sobald der Key gedrückt wird, wird der Text geschickt und das Textfeld geleert.
+     * @param e KeyEvent
+     */
+    public void keyPressed(KeyEvent e){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+           reactToListener();
+        }
+    }
+
+    /**
+     * Keylistener benötigt diese Methode
+     * @param e
+     */
+    public void keyTyped(KeyEvent e){}
+
+    /**
+     * Keylistener, sobald der key losgelassen wird, wird das Textfeld geleert.
+     * @param e
+     */
+    public void keyReleased(KeyEvent e){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
             messageTextArea.setText("");
-            SwingUtilities.updateComponentTreeUI(scrollPane);
-            scrollToBottom();
         }
     }
 
@@ -118,17 +138,29 @@ public class WebcamChatGui implements ActionListener {
         messagePanel.scrollRectToVisible(rect);
     }
 
+    private void reactToListener(){
+        addNewMessage(messageTextArea.getText());
+        try {
+            new CTCWriter(client , messageTextArea.getText()).start();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        messageTextArea.setText("");
+    }
+
     /**
      * Neue Nachrichten werden im messagePanel angezeigt
      * @param message Nachricht, welche angezeigt werden soll.
      */
     public void addNewMessage(String message){
-        JLabel newMessageLabel = new JLabel(message);
-        messagePanel.add(newMessageLabel);
-        SwingUtilities.updateComponentTreeUI(scrollPane);
-        scrollToBottom();
+        if(message.equals(""));
+        else {
+            JLabel newMessageLabel = new JLabel(message);
+            messagePanel.add(newMessageLabel);
+            SwingUtilities.updateComponentTreeUI(scrollPane);
+            scrollToBottom();
+        }
     }
-
     /**
      * JLabel SetIcon wird verwendet, um das Webcambild anzuzeigen.
      * @param data Bytearray, welcher Bild enthält
@@ -142,7 +174,11 @@ public class WebcamChatGui implements ActionListener {
         switch(externOrLocal){
             case "extern":
                 label_1_1.setIcon(new ImageIcon(webCamImage));
+                break;
             case "local":
+                label_1_2.setIcon(new ImageIcon(webCamImage));
+                break;
+            default:
                 label_1_2.setIcon(new ImageIcon(webCamImage));
                 break;
         }
