@@ -3,8 +3,12 @@ package Client;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.*;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -12,7 +16,7 @@ import java.net.Socket;
  * Created by meiersila on 30.03.2017.
  * WebcamChatGui welches sich beim Verbinden mit einem anderen Client öffnet.
  */
-public class WebcamChatGui implements ActionListener {
+public class WebcamChatGui implements ActionListener, KeyListener {
     private Socket client;
 
     private JFrame frame;
@@ -20,8 +24,8 @@ public class WebcamChatGui implements ActionListener {
     private JPanel panel_1;
     private JPanel panel_2;
 
-    private JPanel panel_1_1;
-    private JPanel panel_1_2;
+    private JLabel label_1_1;
+    private JLabel label_1_2;
     private JPanel panel_2_2;
 
     private JScrollPane scrollPane;
@@ -32,7 +36,7 @@ public class WebcamChatGui implements ActionListener {
     private JButton messageSendButton;
 
     /**
-     * Konstruktor. Alle benötigten Komponenten werden initialisiert. Für den webcamPanel wird der Parameter verwendet
+     * Konstruktor. Alle benötigten Komponenten werden initialisiert.
      */
     public WebcamChatGui(Socket client){
         this.client = client;
@@ -42,8 +46,10 @@ public class WebcamChatGui implements ActionListener {
         panel_1 = new JPanel();
         panel_2 = new JPanel(new BorderLayout());
 
-        panel_1_1 = new JPanel();
-        panel_1_2 = new JPanel();
+        label_1_1 = new JLabel();
+
+        label_1_2 = new JLabel();
+
         panel_2_2 = new JPanel();
 
         messagePanel = new JPanel();
@@ -51,12 +57,13 @@ public class WebcamChatGui implements ActionListener {
         messageSendButton = new JButton("Senden");
         messageSendButton.addActionListener(this);
         messageTextArea = new JTextArea(2,10);
+        messageTextArea.addKeyListener(this);
 
         scrollPane = new JScrollPane(messagePanel);
     }
 
     /**
-     * Wird aufgerufen, um das Gui anzuzeigen und die Komponenten im Frame zusetzen.
+     * Wird aufgerufen, um das Gui anzuzeigen und die Komponenten ins Frame zusetzen.
      */
     public void setComponents(){
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -65,11 +72,14 @@ public class WebcamChatGui implements ActionListener {
 
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.PAGE_AXIS));
         panel_1.setBorder(new EmptyBorder(10, 10, 10, 10));
-        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.PAGE_AXIS));
+        panel_1.setLayout(new GridLayout(2,1));
 
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(300, 300));
+
+        panel_1.add(label_1_1);
+        panel_1.add(label_1_2);
 
         panel_2_2.add(messageTextArea);
         panel_2_2.add(messageSendButton);
@@ -89,30 +99,101 @@ public class WebcamChatGui implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == messageSendButton){
-            JLabel messageLabel = new JLabel(messageTextArea.getText());
-            messagePanel.add(messageLabel);
-            try {
-                new CTCWriter(client , messageTextArea.getText()).start();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            messageTextArea.setText("");
-            SwingUtilities.updateComponentTreeUI(scrollPane);
-            scrollToBottom();
+            reactToListener();
         }
     }
 
+    /**
+     * Keylistener, sobald der Key gedrückt wird, wird der Text geschickt und das Textfeld geleert.
+     * @param e KeyEvent
+     */
+    public void keyPressed(KeyEvent e){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+           reactToListener();
+        }
+    }
+
+    /**
+     * Keylistener benötigt diese Methode
+     * @param e
+     */
+    public void keyTyped(KeyEvent e){}
+
+    /**
+     * Keylistener, sobald der key losgelassen wird, wird das Textfeld geleert.
+     * @param e
+     */
+    public void keyReleased(KeyEvent e){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            messageTextArea.setText("");
+        }
+    }
+
+    /**
+     * Autoscroller, damit neue Nachrichten direkt angezeigt werden.
+     */
     private void scrollToBottom(){
         int height = messagePanel.getHeight();
         Rectangle rect = new Rectangle(0,height,10,10);
         messagePanel.scrollRectToVisible(rect);
     }
 
-    void addNewMessage(String message){
-        JLabel newMessageLabel = new JLabel(message);
-        messagePanel.add(newMessageLabel);
-        SwingUtilities.updateComponentTreeUI(scrollPane);
-        scrollToBottom();
+    private void reactToListener(){
+        addNewMessage(messageTextArea.getText());
+        try {
+            new CTCWriter(client , messageTextArea.getText()).start();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        messageTextArea.setText("");
+    }
 
+    /**
+     * Neue Nachrichten werden im messagePanel angezeigt
+     * @param message Nachricht, welche angezeigt werden soll.
+     */
+    public void addNewMessage(String message){
+        if(message.equals(""));
+        else {
+            JLabel newMessageLabel = new JLabel(message);
+            messagePanel.add(newMessageLabel);
+            SwingUtilities.updateComponentTreeUI(scrollPane);
+            scrollToBottom();
+        }
+    }
+    /**
+     * JLabel SetIcon wird verwendet, um das Webcambild anzuzeigen.
+     * @param data Bytearray, welcher Bild enthält
+     * @param width Breite des Bild
+     * @param height Höhe des Bild
+     * @param externOrLocal bei welchem Label das Bild angezeigt werden soll.
+     */
+    public void addNewImage(byte[] data, int width, int height, String externOrLocal){
+        BufferedImage webCamImage = createRGBImage(data, width, height);
+
+        switch(externOrLocal){
+            case "extern":
+                label_1_1.setIcon(new ImageIcon(webCamImage));
+                break;
+            case "local":
+                label_1_2.setIcon(new ImageIcon(webCamImage));
+                break;
+            default:
+                label_1_2.setIcon(new ImageIcon(webCamImage));
+                break;
+        }
+    }
+
+    /**
+     * Erstellt aus dem Bytearray ein BufferedImage.
+     * @param bytes Bytearray, welchen es umzuwandeln gilt
+     * @param width Breite des Bildes
+     * @param height Höhe des Bildes
+     * @return gibt ein BufferedImage zurück.
+     */
+    private static BufferedImage createRGBImage(byte[] bytes, int width, int height) {
+        DataBufferByte buffer = new DataBufferByte(bytes, bytes.length);
+        ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]{8, 8, 8}, false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+        return new BufferedImage(cm, Raster.createInterleavedRaster(buffer, width, height, width * 3, 3, new int[]{0, 1, 2}, null), false, null);
     }
 }
