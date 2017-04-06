@@ -39,6 +39,7 @@ public class CTSController {
                 new CTSWriter(server).sendSelection();
                 break;
             case "CTS":
+                System.out.println(stringArray[1]);
                 new ClientToClientConnection(stringArray[1],false).start();
                 break;
             case "NRM": //These messages expect no answer to return.

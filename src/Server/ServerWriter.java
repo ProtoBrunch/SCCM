@@ -11,7 +11,7 @@ import static Server.ServerListener.chatRoomAdresses;
  * ServerWriter welcher Nachrichten und Bits an Clients schickt.
  * Created by User on 04.04.2017.
  */
-public class ServerWriter {
+class ServerWriter {
     private PrintWriter outToClient;
 
     /**
@@ -24,20 +24,6 @@ public class ServerWriter {
     }
 
     /**
-     * Schickt Wert "EM" an den Client, wird im Switch statement ausgewertet.
-     */
-    void errorMessage(){
-        outToClient.println("EM");
-    }
-
-    /**
-     * Schickt Nachricht an Client, und erwartet Input.
-     */
-    void sayHello(){
-        outToClient.println("Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
-    }
-
-    /**
      * Zeigt dem Client alle erstellen Räume an.
      */
     void showOpenChatRooms() {
@@ -45,26 +31,6 @@ public class ServerWriter {
         for(String name : chatRoomAdresses.keySet()){
             outToClient.println("NRM "+name);
         }
-    }
-
-    void requestChatRoomInformation() {
-        outToClient.println("RCI");
-    }
-
-    void addedClientToRoomList() {
-        outToClient.println("NRM Added you to the list of Chatrooms.");
-    }
-
-    void askForSelection() {
-        outToClient.println("AFS Which one of these rooms do you wish to join?");
-    }
-
-    void sendRoomInformation(String adress) {
-        outToClient.println("CTS "+adress);
-    }
-
-    public void disconnectingClient() {
-        outToClient.println("CC disconnecting you now from server.");
     }
 
     /**
