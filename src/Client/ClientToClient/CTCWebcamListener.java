@@ -20,7 +20,7 @@ public class CTCWebcamListener extends Thread{
      * @param gui Gui, auf welchem das Bild soll dargestellt werden.
      * @throws IOException
      */
-    public CTCWebcamListener(Socket client, Client.WebcamChatGui gui) throws IOException{
+    CTCWebcamListener(Socket client, Client.WebcamChatGui gui) throws IOException{
         this.client = client;
         this.gui = gui;
         inFromClient = new DataInputStream(new BufferedInputStream(client.getInputStream()));
