@@ -8,22 +8,26 @@ import java.util.Scanner;
 import static Server.ServerListener.chatRoomAdresses;
 
 /**
+ * ServerWriter welcher Nachrichten und Bits an Clients schickt.
  * Created by User on 04.04.2017.
  */
 public class ServerWriter {
     private PrintWriter outToClient;
-    private Scanner scanner;
-    private String string;
 
-
+    /**
+     * Konstruktor, erstellt ein neues PrintWriterobjekt und Scanner.
+     * @param client Client, auf welchen geschrieben werden soll
+     * @throws IOException
+     */
     ServerWriter(Socket client) throws IOException {
         outToClient = new PrintWriter(client.getOutputStream(),true);
-        scanner = new Scanner(System.in);
     }
 
-    void defaultMessage(){
-        string = scanner.nextLine();
-        outToClient.println(string);
+    /**
+     *
+     */
+    void errorMessage(){
+        outToClient.println("EM");
     }
 
     void sayHello(){

@@ -44,7 +44,7 @@ class ServerController {
                 break;
             default:
                 System.out.println(input);
-                new ServerWriter(client).defaultMessage();
+                new ServerWriter(client).errorMessage();
                 break;
         }
     }

@@ -15,10 +15,20 @@ import java.net.Socket;
  * Created by Robin Berberat on 04.04.2017.
  */
 public class Client {
+    /**
+     * MainMethode der des Programm
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
-        initiateClient("localhoat", 50000);
+        initiateClient("localhost", 50000);
     }
 
+    /**
+     * Neuer Socket zum Server wird erstellt. Anschliessend ein ListenerThread gestartet.
+     * @param host IP-Adresse vom Server
+     * @param port Port der Verbindung
+     */
     private static void initiateClient(String host, int port){
         try ( Socket server = new Socket(host, port);){
             new CTSListener(server).start();

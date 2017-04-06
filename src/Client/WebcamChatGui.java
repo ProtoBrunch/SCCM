@@ -164,7 +164,6 @@ public class WebcamChatGui implements ActionListener, KeyListener {
 
     /**
      * JLabel SetIcon wird verwendet, um das Webcambild anzuzeigen.
-
      * @param externOrLocal bei welchem Label das Bild angezeigt werden soll.
      */
     public void addNewImage(BufferedImage bufferedImage, String externOrLocal){
