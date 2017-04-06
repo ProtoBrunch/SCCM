@@ -24,16 +24,22 @@ public class ServerWriter {
     }
 
     /**
-     *
+     * Schickt Wert "EM" an den Client, wird im Switch statement ausgewertet.
      */
     void errorMessage(){
         outToClient.println("EM");
     }
 
+    /**
+     * Schickt Nachricht an Client, und erwartet Input.
+     */
     void sayHello(){
         outToClient.println("Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
     }
 
+    /**
+     * Zeigt dem Client alle erstellen Räume an.
+     */
     void showOpenChatRooms() {
         outToClient.println("NRM These Rooms are currently open:");
         for(String name : chatRoomAdresses.keySet()){
@@ -59,5 +65,13 @@ public class ServerWriter {
 
     public void disconnectingClient() {
         outToClient.println("CC disconnecting you now from server.");
+    }
+
+    /**
+     * Sendet Nachricht and Client
+     * @param message String, welcher verschickt werden soll.
+     */
+    void stringToClient(String message){
+        outToClient.println(message);
     }
 }

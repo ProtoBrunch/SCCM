@@ -23,28 +23,29 @@ class ServerController {
         String[] stringArray = input.split(" ");
         switch(stringArray[0].toUpperCase()) {
             case "SH":
-                new ServerWriter(client).sayHello();
+                new ServerWriter(client).stringToClient(
+                        "Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
                 break;
             case "CNR":
-                new ServerWriter(client).requestChatRoomInformation();
+                new ServerWriter(client).stringToClient("RCI");
                 break;
             case "SCI":
                 String adressOfRoom = client.getInetAddress().toString().substring(1);
                 chatRoomAdresses.put(stringArray[1], adressOfRoom);
-                new ServerWriter(client).addedClientToRoomList();
+                new ServerWriter(client).stringToClient("NRM Added you to the list of Chatrooms.");
                 break;
             case "SMC":
                 new ServerWriter(client).showOpenChatRooms();
-                new ServerWriter(client).askForSelection();
+                new ServerWriter(client).stringToClient("AFS Which one of these rooms do you wish to join?");
                 break;
             case "SS":
                 String adress = chatRoomAdresses.get(stringArray[1]);
                 chatRoomAdresses.remove(stringArray[1]);
-                new ServerWriter(client).sendRoomInformation(adress);
+                new ServerWriter(client).stringToClient("CTS "+adress);
                 break;
             default:
                 System.out.println(input);
-                new ServerWriter(client).errorMessage();
+                new ServerWriter(client).stringToClient("EM");
                 break;
         }
     }
