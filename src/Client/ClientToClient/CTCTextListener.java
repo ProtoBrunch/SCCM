@@ -24,7 +24,7 @@ public class CTCTextListener extends Thread{
      * @param client
      * @throws IOException
      */
-    public CTCTextListener(Socket client, Client.WebcamChatGui gui) throws IOException {
+    CTCTextListener(Socket client, Client.WebcamChatGui gui) throws IOException {
         this.client = client;
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
         this.gui = gui;

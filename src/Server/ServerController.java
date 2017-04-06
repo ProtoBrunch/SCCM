@@ -10,7 +10,7 @@ import static Server.ServerListener.chatRoomAdresses;
  *
  * Created by Robin Berberat on 04.04.2017.
  */
-public class ServerController {
+class ServerController {
     /**
      * Konstruktor des ServerControllers
      * Bricht den Input in einen String auf, analysiert dessen erste Zelle und führt dann die dazu passende Anweisung aus.
@@ -19,7 +19,7 @@ public class ServerController {
      * @param client
      * @throws Exception
      */
-    public ServerController(String input, Socket client) throws Exception {
+    ServerController(String input, Socket client) throws Exception {
         String[] stringArray = input.split(" ");
         switch(stringArray[0].toUpperCase()) {
             case "SH":

@@ -15,7 +15,7 @@ public class ServerListener extends Thread{
     private BufferedReader inFromClient;
     static HashMap<String, String> chatRoomAdresses = new HashMap<>();
 
-    public ServerListener(Socket client) throws IOException {
+    ServerListener(Socket client) throws IOException {
         this.client = client;
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
     }

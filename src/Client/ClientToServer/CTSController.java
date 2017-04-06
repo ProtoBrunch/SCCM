@@ -25,7 +25,7 @@ public class CTSController {
      * @param server
      * @throws IOException
      */
-    public CTSController(String input, Socket server) throws IOException {
+    CTSController(String input, Socket server) throws IOException {
         String[] stringArray = input.split(" ");
         switch(stringArray[0].toUpperCase()){
             case "RCI":

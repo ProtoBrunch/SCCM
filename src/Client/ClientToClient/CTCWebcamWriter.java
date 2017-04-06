@@ -12,7 +12,7 @@ import java.net.Socket;
  * Created by berberatr on 05.04.2017.
  */
 public class CTCWebcamWriter extends Thread{
-    Socket client;
+    private Socket client;
     private Webcam webcam;
     private  DataOutputStream outToClient;
     private Client.WebcamChatGui gui;
