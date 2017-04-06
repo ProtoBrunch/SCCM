@@ -15,13 +15,13 @@ import java.net.Socket;
  */
 public class CTCTextListener extends Thread{
     private Socket client;
-    private  BufferedReader inFromClient;
+    private BufferedReader inFromClient;
     private WebcamChatGui gui;
 
     /**
      * Konstruktor
      *
-     * @param client
+     * @param client Client, welcher Nachrichten erhält.
      * @throws IOException
      */
     public CTCTextListener(Socket client, Client.WebcamChatGui gui) throws IOException {

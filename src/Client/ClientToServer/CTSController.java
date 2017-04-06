@@ -47,6 +47,9 @@ public class CTSController {
             case "CC":
                 server.close();
                 break;
+            case "EM":
+                new CTSWriter(server).errorMessage();
+                break;
             default:
                 System.out.println(input);
                 new CTSWriter(server).defaultMessage();

@@ -13,6 +13,10 @@ import java.net.Socket;
  */
 public class Server {
 
+    /**
+     * MainMethode des Server vom Programm. Erstellt einen neuen Serversocket und Serverlistener auf den hinzugefügten client.
+     * @param args
+     */
     public static void main(String[] args) {
         int port = 50000;
 

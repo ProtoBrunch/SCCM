@@ -20,7 +20,7 @@ public class CTCTextWriter extends Thread{
     /**
      * Konstruktor
      *
-     * @param client
+     * @param client Client, welcher Nachricht veschickt.
      * @throws IOException
      */
     public CTCTextWriter(Socket client, String input) throws IOException {

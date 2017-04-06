@@ -54,6 +54,10 @@ public class ClientToClientConnection extends Thread {
         }
     }
 
+    /**
+     * Startet auf dem Client ein neuer Serversocket für den Chat und die Webcamübertragung
+     * @throws IOException
+     */
     private void startServer() throws IOException {
         ServerSocket clientServer = new ServerSocket(6000);
         ServerSocket clientWebcamServer = new ServerSocket(5000);
@@ -62,20 +66,39 @@ public class ClientToClientConnection extends Thread {
         clientWebcam = clientWebcamServer.accept();
     }
 
+    /**
+     * Startet auf dem Client ein neuer Socket für den Chat und die Webcamübertragung
+     * @throws IOException
+     */
     private void connectToClient() throws IOException {
         client = new Socket(host, 6000);
         clientWebcam = new Socket(host, 5000);
     }
 
+    /**
+     * Erstellt ein neues Webcamgui Objekt und öffnet dieses.
+     */
     private void openGui() {
         gui = new WebcamChatGui(client);
         gui.setComponents();
     }
 
+    /**
+     * Erstellt für den Client einen WebcamWriter, WebcamListener und einen ChatListener
+     * @throws IOException
+     */
     private void openListenersAndWriters() throws IOException {
         new CTCTextListener(client, gui).start();
         new CTCWebcamWriter(clientWebcam, webcam, gui).start();
         new CTCWebcamListener(clientWebcam, gui).start();
+    }
+
+    public Socket getClient() {
+        return client;
+    }
+
+    public String getHost() {
+        return host;
     }
 }
 

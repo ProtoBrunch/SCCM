@@ -58,4 +58,10 @@ public class CTSWriter {
         String selection = scanner.nextLine();
         outToServer.println("SS "+selection);
     }
+
+    public void errorMessage() {
+        System.out.println("Your input was invalid! Please try again.");
+        String string = scanner.nextLine();
+        outToServer.println(string);
+    }
 }
