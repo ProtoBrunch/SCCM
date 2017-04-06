@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 /**
@@ -80,7 +81,7 @@ public class CTCWebcamWriter extends Thread{
      * @param imageArray
      * @throws IOException
      */
-    private void sendImageToClient(byte[] imageArray) throws IOException {
+    private void sendImageToClient(byte[] imageArray) throws IOException{
         outToClient.writeInt(imageArray.length);
         outToClient.write(imageArray);
     }

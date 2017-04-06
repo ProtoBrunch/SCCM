@@ -24,7 +24,8 @@ class ServerController {
         switch(stringArray[0].toUpperCase()) {
             case "SH":
                 new ServerWriter(client).stringToClient(
-                        "Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum, [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
+                        "Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum," +
+                                " [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
                 break;
             case "CNR":
                 new ServerWriter(client).stringToClient("RCI");

@@ -21,19 +21,10 @@ public class Client {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        initiateClient("localhost", 50000);
-    }
+        String host = "localhost";
+        int port = 50000;
 
-    /**
-     * Neuer Socket zum Server wird erstellt. Anschliessend ein ListenerThread gestartet.
-     * @param host IP-Adresse vom Server
-     * @param port Port der Verbindung
-     */
-    private static void initiateClient(String host, int port){
-        try ( Socket server = new Socket(host, port);){
-            new CTSListener(server).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Socket server = new Socket(host, port);
+        new CTSListener(server).start();
     }
 }
