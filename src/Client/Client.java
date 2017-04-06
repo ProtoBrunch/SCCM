@@ -21,7 +21,7 @@ public class Client {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        initiateClient("172.16.2.156", 50000);
+        initiateClient("172.16.2.137", 50000); //Host = Ipadresse des Server
     }
 
     /**

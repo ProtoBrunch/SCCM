@@ -139,6 +139,9 @@ public class WebcamChatGui implements ActionListener, KeyListener {
         messagePanel.scrollRectToVisible(rect);
     }
 
+    /**
+     * Sendet Nachricht an Client und zeigt sie auf dem eignen Fenster an
+     */
     private void reactToListener(){
         addNewMessage(messageTextArea.getText());
         try {

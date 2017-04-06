@@ -15,8 +15,8 @@ class ServerController {
      * Konstruktor des ServerControllers
      * Bricht den Input in einen String auf, analysiert dessen erste Zelle und führt dann die dazu passende Anweisung aus.
      *
-     * @param input
-     * @param client
+     * @param input Eingabe fürs Switch statement
+     * @param client Client, welcher am Verbindung aufgaben ist
      * @throws Exception
      */
     ServerController(String input, Socket client) throws Exception {

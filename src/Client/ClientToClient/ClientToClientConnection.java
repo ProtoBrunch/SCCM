@@ -93,10 +93,16 @@ public class ClientToClientConnection extends Thread {
         new CTCWebcamListener(clientWebcam, gui).start();
     }
 
+    /**
+     * @return client
+     */
     public Socket getClient() {
         return client;
     }
 
+    /**
+     * @return Ip adresse des Server
+     */
     public String getHost() {
         return host;
     }

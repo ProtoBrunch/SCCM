@@ -59,6 +59,9 @@ public class CTSWriter {
         outToServer.println("SS "+selection);
     }
 
+    /**
+     * Sendet Error Nachricht und lässt den Client neuen Input eintippen.
+     */
     public void errorMessage() {
         System.out.println("Your input was invalid! Please try again.");
         String string = scanner.nextLine();
