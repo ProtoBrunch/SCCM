@@ -18,6 +18,7 @@ import java.net.Socket;
  * WebcamChatGui welches sich beim Verbinden mit einem anderen Client öffnet.
  */
 public class WebcamChatGui implements ActionListener, KeyListener {
+    private String username = "Anonym";
     private Socket client;
 
     private JFrame frame;
@@ -39,7 +40,8 @@ public class WebcamChatGui implements ActionListener, KeyListener {
     /**
      * Konstruktor. Alle benötigten Komponenten werden initialisiert.
      */
-    public WebcamChatGui(Socket client){
+    public WebcamChatGui(Socket client, String username){
+        this.username = username;
         this.client = client;
 
         frame = new JFrame("Skipe - WebCam");
@@ -142,9 +144,11 @@ public class WebcamChatGui implements ActionListener, KeyListener {
      * Sendet Nachricht an Client und zeigt sie auf dem eignen Fenster an
      */
     private void reactToListener(){
-        addNewMessage(messageTextArea.getText());
+        String message = messageTextArea.getText();
+        message = username + ": "+ message;
+        addNewMessage(message);
         try {
-            new CTCTextWriter(client , messageTextArea.getText()).start();
+            new CTCTextWriter(client , message).start();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
