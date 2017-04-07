@@ -21,16 +21,15 @@ public class Client {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        initiateClient("172.16.2.137", 50000); //Host = Ipadresse des Server
+        initiateClient(args[0]);
     }
 
     /**
      * Neuer Socket zum Server wird erstellt. Anschliessend ein ListenerThread gestartet.
      * @param host IP-Adresse vom Server
-     * @param port Port des Server.
      */
-    private static void initiateClient(String host, int port) throws IOException{
-            Socket server = new Socket(host, port);
+    private static void initiateClient(String host) throws IOException{
+            Socket server = new Socket(host, 50000);
             new CTSListener(server).start();
 
     }

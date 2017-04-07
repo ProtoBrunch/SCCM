@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,6 +23,7 @@ public class Server {
 
         try(ServerSocket server = new ServerSocket(port)) {
             System.out.println("Server gestartet");
+            System.out.println(InetAddress.getLocalHost());
             while(true){
                 Socket client = server.accept();
                 new ServerListener(client).start();
