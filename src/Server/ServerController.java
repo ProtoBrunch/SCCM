@@ -4,52 +4,49 @@ package Server;
 import java.net.Socket;
 
 import static Server.ServerListener.chatRoomAdresses;
-import static Server.ServerListener.chatRoomPorts;
 
 /**
  * Zuständig für die Verarbeitung der vom ServerListener übergebenen Kommandos.
  *
  * Created by Robin Berberat on 04.04.2017.
  */
-public class ServerController {
+class ServerController {
     /**
      * Konstruktor des ServerControllers
      * Bricht den Input in einen String auf, analysiert dessen erste Zelle und führt dann die dazu passende Anweisung aus.
      *
-     * @param input
-     * @param client
+     * @param input Eingabe fürs Switch statement
+     * @param client Client, welcher am Verbindung aufgaben ist
      * @throws Exception
      */
-    public ServerController(String input, Socket client) throws Exception {
+    ServerController(String input, Socket client) throws Exception {
         String[] stringArray = input.split(" ");
         switch(stringArray[0].toUpperCase()) {
+            case "SH":
+                new ServerWriter(client).stringToClient(
+                        "Hallo Benutzer. Was sollen sie machen? [CNR] für einen neuen Chatraum," +
+                                " [SMC] um sich die bestehenden CHats anzeigen zu lassen. ");
+                break;
             case "CNR":
-                System.out.println("Client wishes to create new Chatroom.");
-                new ServerWriter(client).requestChatRoomInformation();
+                new ServerWriter(client).stringToClient("RCI");
                 break;
             case "SCI":
-                System.out.println("Filling the gained Information into Hashmaps.");
-                chatRoomPorts.put(stringArray[1], Integer.parseInt(stringArray[2]));
                 String adressOfRoom = client.getInetAddress().toString().substring(1);
                 chatRoomAdresses.put(stringArray[1], adressOfRoom);
-                new ServerWriter(client).addedClientToRoomList();
+                new ServerWriter(client).stringToClient("NRM Added you to the list of Chatrooms.");
                 break;
             case "SMC":
-                System.out.println("Client requests all open Chatrooms.");
                 new ServerWriter(client).showOpenChatRooms();
-                new ServerWriter(client).askForSelection();
+                new ServerWriter(client).stringToClient("AFS Which one of these rooms do you wish to join?");
                 break;
             case "SS":
-                System.out.println("Sending Client Room Information");
-                int port = chatRoomPorts.get(stringArray[1]);
-                chatRoomPorts.remove(stringArray[1]);
                 String adress = chatRoomAdresses.get(stringArray[1]);
                 chatRoomAdresses.remove(stringArray[1]);
-                new ServerWriter(client).sendRoomInformation(adress,port);
+                new ServerWriter(client).stringToClient("CTS "+adress);
                 break;
             default:
                 System.out.println(input);
-                new ServerWriter(client).defaultMessage();
+                new ServerWriter(client).stringToClient("EM");
                 break;
         }
     }

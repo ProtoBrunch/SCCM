@@ -1,5 +1,7 @@
 package Client;
 
+import Client.ClientToServer.CTSListener;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -13,16 +15,22 @@ import java.net.Socket;
  * Created by Robin Berberat on 04.04.2017.
  */
 public class Client {
+    /**
+     * MainMethode der des Programm
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
-        String host = "172.16.2.156";
-        int port = 50000;
-        Socket server = null;
+        initiateClient("172.16.2.156");
+    }
 
-        try {
-            server = new Socket(host, port);
+    /**
+     * Neuer Socket zum Server wird erstellt. Anschliessend ein ListenerThread gestartet.
+     * @param host IP-Adresse vom Server
+     */
+    private static void initiateClient(String host) throws IOException{
+            Socket server = new Socket(host, 50000);
             new CTSListener(server).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

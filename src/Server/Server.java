@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,16 +14,19 @@ import java.net.Socket;
  */
 public class Server {
 
+    /**
+     * MainMethode des Server vom Programm. Erstellt einen neuen Serversocket und Serverlistener auf den hinzugefügten client.
+     * @param args
+     */
     public static void main(String[] args) {
         int port = 50000;
 
         try(ServerSocket server = new ServerSocket(port)) {
             System.out.println("Server gestartet");
+            System.out.println(InetAddress.getLocalHost());
             while(true){
                 Socket client = server.accept();
-                System.out.println("Client verbunden");
                 new ServerListener(client).start();
-                System.out.println("Listener gestartet");
             }
         } catch (IOException e) {
             e.printStackTrace();

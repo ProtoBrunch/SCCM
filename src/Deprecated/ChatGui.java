@@ -1,6 +1,4 @@
-package Client;
-
-import Client.ClientToClient.CTCTextWriter;
+package Deprecated;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,25 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.*;
-import java.io.IOException;
-import java.net.Socket;
 
 /**
+ * Chatgui um nur zu chatten.
  * Created by meiersila on 30.03.2017.
- * WebcamChatGui welches sich beim Verbinden mit einem anderen Client öffnet.
  */
-public class WebcamChatGui implements ActionListener, KeyListener {
-    private String username = "Anonym";
-    private Socket client;
-
+public class ChatGui implements ActionListener , KeyListener{
+    private String username;
     private JFrame frame;
     private JPanel panel_outer;
     private JPanel panel_1;
     private JPanel panel_2;
 
-    private JLabel label_1_1;
-    private JLabel label_1_2;
     private JPanel panel_2_2;
 
     private JScrollPane scrollPane;
@@ -40,26 +31,20 @@ public class WebcamChatGui implements ActionListener, KeyListener {
     /**
      * Konstruktor. Alle benötigten Komponenten werden initialisiert.
      */
-    public WebcamChatGui(Socket client, String username){
+    public ChatGui(String username){
         this.username = username;
-        this.client = client;
 
-        frame = new JFrame("Skipe - WebCam");
-        panel_outer = new JPanel(new GridLayout(1,2));
+        frame = new JFrame("Skipe");
+        panel_outer = new JPanel(new BorderLayout());
         panel_1 = new JPanel();
         panel_2 = new JPanel(new BorderLayout());
-
-        label_1_1 = new JLabel();
-
-        label_1_2 = new JLabel();
-
         panel_2_2 = new JPanel();
 
         messagePanel = new JPanel();
         messagePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         messageSendButton = new JButton("Senden");
         messageSendButton.addActionListener(this);
-        messageTextArea = new JTextArea(1,25);
+        messageTextArea = new JTextArea(2,10);
         messageTextArea.addKeyListener(this);
 
         scrollPane = new JScrollPane(messagePanel);
@@ -74,14 +59,14 @@ public class WebcamChatGui implements ActionListener, KeyListener {
         frame.setLayout(new BorderLayout());
 
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.PAGE_AXIS));
-        panel_1.setLayout(new GridLayout(2,1));
+        panel_1.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.PAGE_AXIS));
+
+        addNewUserName("Aktuelle User:");
 
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(300, 300));
-
-        panel_1.add(label_1_1);
-        panel_1.add(label_1_2);
 
         panel_2_2.add(messageTextArea);
         panel_2_2.add(messageSendButton);
@@ -96,12 +81,29 @@ public class WebcamChatGui implements ActionListener, KeyListener {
     }
 
     /**
-     * Reaktion auf Buttongedrückt.
-     * @param e Event, in diesem Fall vom Button
+     * Actionlistener, welcher Nachrichten sendet.
+     * @param e Event
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == messageSendButton){
-            reactToListener();
+            addNewMessage(messageTextArea.getText());
+            messageTextArea.setText("");
+            System.out.println("Button clicked!");
+        }
+    }
+
+    /**
+     * Neue Nachrichten werden im messagePanel angezeigt
+     * @param message Nachricht, welche angezeigt werden soll.
+     */
+    public void addNewMessage(String message){
+        if(message.equals(""));
+        else {
+            message = username +": " + message;
+            JLabel newMessageLabel = new JLabel(message);
+            messagePanel.add(newMessageLabel);
+            SwingUtilities.updateComponentTreeUI(scrollPane);
+            scrollToBottom();
         }
     }
 
@@ -111,7 +113,9 @@ public class WebcamChatGui implements ActionListener, KeyListener {
      */
     public void keyPressed(KeyEvent e){
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
-           reactToListener();
+            addNewMessage(messageTextArea.getText());
+            messageTextArea.setText("");
+            System.out.println("Enter-key pressed!");
         }
     }
 
@@ -141,48 +145,10 @@ public class WebcamChatGui implements ActionListener, KeyListener {
     }
 
     /**
-     * Sendet Nachricht an Client und zeigt sie auf dem eignen Fenster an
+     * Wird ein Userhinzugefügt, wird er auf der linken Seite angezeigt, BETA
+     * @param username Name des Users, welcher hinzugefügt werden soll.
      */
-    private void reactToListener(){
-        String message = messageTextArea.getText();
-        message = username + ": "+ message;
-        addNewMessage(message);
-        try {
-            new CTCTextWriter(client , message).start();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        messageTextArea.setText("");
-    }
-
-    /**
-     * Neue Nachrichten werden im messagePanel angezeigt
-     * @param message Nachricht, welche angezeigt werden soll.
-     */
-    public void addNewMessage(String message){
-        if(!message.equals("")){
-            JLabel newMessageLabel = new JLabel(message);
-            messagePanel.add(newMessageLabel);
-            SwingUtilities.updateComponentTreeUI(scrollPane);
-            scrollToBottom();
-        }
-    }
-
-    /**
-     * JLabel SetIcon wird verwendet, um das Webcambild anzuzeigen.
-     * @param externOrLocal bei welchem Label das Bild angezeigt werden soll.
-     */
-    public void addNewImage(BufferedImage bufferedImage, String externOrLocal){
-        switch(externOrLocal){
-            case "extern":
-                label_1_1.setIcon(new ImageIcon(bufferedImage));
-                break;
-            case "local":
-                label_1_2.setIcon(new ImageIcon(bufferedImage));
-                break;
-            default:
-                label_1_2.setIcon(new ImageIcon(bufferedImage));
-                break;
-        }
+    private void addNewUserName(String username){
+        panel_1.add(new JLabel(username));
     }
 }
