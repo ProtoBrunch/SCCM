@@ -21,7 +21,7 @@ public class Client {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        initiateClient(args[0]);
+        initiateClient("172.16.2.156");
     }
 
     /**

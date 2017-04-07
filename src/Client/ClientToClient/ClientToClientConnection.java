@@ -7,6 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Veranwtortlich für den Verbindungsaufbau zu einem Client.
@@ -23,6 +24,8 @@ public class ClientToClientConnection extends Thread {
     private WebcamChatGui gui;
     private Webcam webcam = Webcam.getDefault();
     private boolean isItClientServer;
+    private Scanner scanner = new Scanner(System.in);
+    private String username;
 
     /**
      * Konstruktor
@@ -42,6 +45,9 @@ public class ClientToClientConnection extends Thread {
      */
     public void run() {
         try {
+            System.out.println("What is your username?");
+            username = scanner.nextLine();
+
             if (isItClientServer) {
                 startServer();
             } else {
@@ -79,7 +85,7 @@ public class ClientToClientConnection extends Thread {
      * Erstellt ein neues Webcamgui Objekt und öffnet dieses.
      */
     private void openGui() {
-        gui = new WebcamChatGui(client);
+        gui = new WebcamChatGui(client, username);
         gui.setComponents();
     }
 
