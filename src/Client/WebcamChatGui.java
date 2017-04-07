@@ -57,7 +57,7 @@ public class WebcamChatGui implements ActionListener, KeyListener {
         messagePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         messageSendButton = new JButton("Senden");
         messageSendButton.addActionListener(this);
-        messageTextArea = new JTextArea(2,10);
+        messageTextArea = new JTextArea(1,25);
         messageTextArea.addKeyListener(this);
 
         scrollPane = new JScrollPane(messagePanel);
@@ -72,7 +72,6 @@ public class WebcamChatGui implements ActionListener, KeyListener {
         frame.setLayout(new BorderLayout());
 
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.PAGE_AXIS));
-        panel_1.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel_1.setLayout(new GridLayout(2,1));
 
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
